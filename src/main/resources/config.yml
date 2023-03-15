@@ -5,6 +5,9 @@ database:
   username: 'u5_QkBEt7y5Ls'
   password: '3w7!BGDpbAhP@JjzV.sSCg.9'
 
+huizenmarkt:
+  icon: "https://textures.minecraft.net/texture/2854060aa5776b73668c89865909d12d0622483e600b646f90c186c65b75ff45"
+
 categorieen:
   staatsbedrijven:
     displayname: "&bStaatsbedrijven"

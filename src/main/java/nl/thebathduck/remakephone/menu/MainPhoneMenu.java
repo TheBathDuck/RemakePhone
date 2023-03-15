@@ -75,7 +75,8 @@ public class MainPhoneMenu extends GUIHolder {
 
         inventory.setItem(13, new ItemBuilder(PhoneIcon.HUIZENMARKT.getMaterial())
                 .setNBT(PhoneIcon.HUIZENMARKT.getKey(), PhoneIcon.HUIZENMARKT.getValue())
-                .setColoredName(" ")
+                .setNBT("menu", "huizenmarkt")
+                .setColoredName("&cHuizenmarkt")
                 .build()
         );
 
@@ -132,6 +133,9 @@ public class MainPhoneMenu extends GUIHolder {
                 break;
             case "maps":
                 new MapsPhoneMenu(player);
+                break;
+            case "huizenmarkt":
+                new MarktMenu(player, 0);
                 break;
             default:
                 return;

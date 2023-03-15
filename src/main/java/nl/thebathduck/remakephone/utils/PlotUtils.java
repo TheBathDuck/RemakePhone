@@ -15,6 +15,7 @@ import org.bukkit.World;
 import org.bukkit.plugin.Plugin;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -46,6 +47,8 @@ public class PlotUtils {
         worldGuardFlags.add(RMT_PLOTS_SELLING);
         worldGuardFlags.add(RMT_GPS_POINT);
 
+        huizenMarktRegions = new ArrayList<>();
+
         FlagRegistry registry = worldGuard.getFlagRegistry();
         try {
             worldGuardFlags.forEach(flag -> {
@@ -69,11 +72,11 @@ public class PlotUtils {
         });
     }
 
-    public List<ProtectedRegion> getPlots(World world, double prizeRange) {
-        List<ProtectedRegion> regions = new ArrayList<>();
+    public ArrayList<ProtectedRegion> getPlots(World world, double prizeRange) {
+        ArrayList<ProtectedRegion> regions = new ArrayList<>();
         huizenMarktRegions.forEach(region -> {
             int prize = region.getFlag(RMT_PLOTS_PRICE);
-            if(prize < prizeRange) return;
+            if(prizeRange < prize) return;
             regions.add(region);
         });
         return regions;
