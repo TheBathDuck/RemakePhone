@@ -1,0 +1,14 @@
+name: RemakePhone
+version: '${project.version}'
+main: nl.thebathduck.remakephone.RemakePhone
+authors: [ TheBathDuck ]
+depend:
+  - WorldEdit
+  - WorldGuard
+  - Essentials
+  - Vault
+  - GPS
+  - PlaceholderAPI
+commands:
+  remakephone: {}
+  huizenmarkt: {}

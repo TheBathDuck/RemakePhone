@@ -1,0 +1,28 @@
+database:
+  ip: '157.90.233.130'
+  port: 3306
+  database: 's5_remakephone'
+  username: 'u5_QkBEt7y5Ls'
+  password: '3w7!BGDpbAhP@JjzV.sSCg.9'
+
+categorieen:
+  staatsbedrijven:
+    displayname: "&bStaatsbedrijven"
+    icon: "http://textures.minecraft.net/texture/b25b27ce62ca88743840a95d1c39868f43ca60696a84f564fbd7dda259be00fe"
+    locaties:
+      inkoop:
+        icon: "http://textures.minecraft.net/texture/533fc9a45be13ca57a78b21762c6e1262dae411f13048b963d972a29e07096ab"
+        displayname: "&9Inkoop"
+        gpsvalue: "inkoop"
+      politie:
+        icon: "http://textures.minecraft.net/texture/df10ade3a30c8f582f8acd7f344e1348c570e0f438ca3f5c33e2c9a93be78f0c"
+        displayname: "&9Politie"
+        gpsvalue: "politie"
+  serverlocaties:
+    displayname: "&bServer Locaties"
+    icon: "http://textures.minecraft.net/texture/24d67a3b4fbb671d845a9c842e9e86038acee17b95e6cacb2b02cb9c"
+    locaties:
+      vendingplein:
+        icon: "http://textures.minecraft.net/texture/fd761cc16562c88d2fbe40ad38502bc3b4a87859887dbc35f272e30d8070eeec"
+        displayname: "&9Vending Plein"
+        gpsvalue: "vendingplein"
