@@ -1,7 +1,7 @@
 # RemakePhone
 
 
-##Hoe maak je een huizenmarkt plot?
+## Hoe maak je een huizenmarkt plot?
 1. Sta op het plot
 2. Sta op het punt waar de GPS locatie naartoe moet
 3. Gebruik /huizenmarkt create <prijs> (Hij maakt automatisch het gps punt aan met de region name)
