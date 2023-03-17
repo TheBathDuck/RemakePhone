@@ -1,12 +1,9 @@
 package nl.thebathduck.remakephone.commands;
 
 import nl.thebathduck.remakephone.managers.PhoneManager;
-import nl.thebathduck.remakephone.menu.MainPhoneMenu;
 import nl.thebathduck.remakephone.objects.Phone;
 import nl.thebathduck.remakephone.utils.ChatUtils;
-import nl.thebathduck.remakephone.utils.SkullUtils;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -17,31 +14,31 @@ public class PhoneCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if(!(sender instanceof Player)) {
+        if (!(sender instanceof Player)) {
             sender.sendMessage(ChatUtils.color("&cAlleen een speler kan dit command uitvoeren!"));
             return false;
         }
         Player player = (Player) sender;
 
-        if(!player.hasPermission("remakephone.admin")) {
+        if (!player.hasPermission("remakephone.admin")) {
             player.sendMessage(ChatUtils.color("&cGeen permissie."));
             return false;
         }
 
-        if(args.length <= 0) {
+        if (args.length <= 0) {
             sendHelp(player);
             return false;
         }
 
-        if(args[0].equalsIgnoreCase("addcredit") && args.length == 3) {
+        if (args[0].equalsIgnoreCase("addcredit") && args.length == 3) {
             Player target = Bukkit.getPlayer(args[1]);
-            if(target == null || !target.isOnline()) {
+            if (target == null || !target.isOnline()) {
                 player.sendMessage(ChatUtils.color("&cDeze speler is niet online of bestaat niet."));
                 return false;
             }
             PhoneManager manager = PhoneManager.getInstance();
             Phone targetPhone = manager.getPhone(target.getUniqueId());
-            if(targetPhone == null) {
+            if (targetPhone == null) {
                 player.sendMessage(ChatUtils.color("&cEr is iets fout gegaan met het ophalen van de telefoon gegevens, contacteer een Developer!"));
                 return false;
             }
@@ -55,15 +52,15 @@ public class PhoneCommand implements CommandExecutor {
             }
         }
 
-        if(args[0].equalsIgnoreCase("setcredit") && args.length == 3) {
+        if (args[0].equalsIgnoreCase("setcredit") && args.length == 3) {
             Player target = Bukkit.getPlayer(args[1]);
-            if(target == null || !target.isOnline()) {
+            if (target == null || !target.isOnline()) {
                 player.sendMessage(ChatUtils.color("&cDeze speler is niet online of bestaat niet."));
                 return false;
             }
             PhoneManager manager = PhoneManager.getInstance();
             Phone targetPhone = manager.getPhone(target.getUniqueId());
-            if(targetPhone == null) {
+            if (targetPhone == null) {
                 player.sendMessage(ChatUtils.color("&cEr is iets fout gegaan met het ophalen van de telefoon gegevens, contacteer een Developer!"));
                 return false;
             }
@@ -75,6 +72,10 @@ public class PhoneCommand implements CommandExecutor {
                 player.sendMessage(ChatUtils.color("&cGeen geldig bedrag opgegeven, voorbeeld: 1.0 of 1.56!"));
                 return false;
             }
+        }
+
+        if(args[0].equalsIgnoreCase("dump")) {
+
         }
 
 

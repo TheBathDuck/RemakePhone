@@ -6,14 +6,13 @@ import lombok.Getter;
 import org.bukkit.Bukkit;
 
 import java.sql.*;
-import java.util.UUID;
 
 public class SQLManager {
 
     private static SQLManager instance;
 
     public static SQLManager getInstance() {
-        if(instance == null) instance = new SQLManager();
+        if (instance == null) instance = new SQLManager();
         return instance;
     }
 
@@ -46,7 +45,7 @@ public class SQLManager {
         Bukkit.getLogger().info("Connected to RemakePhone Database.");
     }
 
-    public void createTables(){
+    public void createTables() {
         try (Connection connection = hikari.getConnection()) {
             Statement phonesTable = connection.createStatement();
             phonesTable.executeUpdate("CREATE TABLE IF NOT EXISTS Phones(uuid VARCHAR(36), number INTEGER, credit DOUBLE, skin VARCHAR(128), PRIMARY KEY(uuid))");
@@ -59,7 +58,6 @@ public class SQLManager {
             e.printStackTrace();
         }
     }
-
 
 
     public void shutdown() throws SQLException {

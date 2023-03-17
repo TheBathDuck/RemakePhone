@@ -1,7 +1,6 @@
 package nl.thebathduck.remakephone.utils;
 
 import io.github.bananapuncher714.nbteditor.NBTEditor;
-import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -9,6 +8,7 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -288,7 +288,7 @@ public class ItemBuilder {
 
     public ItemBuilder setItemFlags() {
         ItemMeta im = is.getItemMeta();
-        for(ItemFlag flag : ItemFlag.values()) {
+        for (ItemFlag flag : ItemFlag.values()) {
             im.addItemFlags(flag);
         }
         is.setItemMeta(im);
@@ -305,6 +305,11 @@ public class ItemBuilder {
         ItemMeta im = is.getItemMeta();
         im.addItemFlags(itemFlag);
         is.setItemMeta(im);
+        return this;
+    }
+
+    public ItemBuilder setAmount(int amount) {
+        is.setAmount(amount);
         return this;
     }
 

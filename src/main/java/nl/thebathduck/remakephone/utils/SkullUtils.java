@@ -2,12 +2,10 @@ package nl.thebathduck.remakephone.utils;
 
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 
-import java.io.File;
 import java.lang.reflect.Field;
 import java.util.Base64;
 import java.util.UUID;
@@ -16,7 +14,7 @@ public class SkullUtils {
 
     public static ItemStack skullUrl(String url) {
         ItemStack skull = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
-        if(url.isEmpty()) return skull;
+        if (url.isEmpty()) return skull;
 
         SkullMeta meta = (SkullMeta) skull.getItemMeta();
         GameProfile profile = new GameProfile(UUID.randomUUID(), null);

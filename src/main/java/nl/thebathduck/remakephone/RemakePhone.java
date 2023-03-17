@@ -1,10 +1,14 @@
 package nl.thebathduck.remakephone;
 
+import club.minnced.discord.webhook.WebhookClient;
 import com.live.bemmamin.gps.api.GPSAPI;
 import lombok.Getter;
+import lombok.Setter;
 import net.milkbowl.vault.economy.Economy;
 import nl.thebathduck.remakephone.commands.PhoneCommand;
 import nl.thebathduck.remakephone.commands.PlotCommand;
+import nl.thebathduck.remakephone.commands.ReloadCommand;
+import nl.thebathduck.remakephone.enums.ServerType;
 import nl.thebathduck.remakephone.listeners.*;
 import nl.thebathduck.remakephone.managers.NavigationManager;
 import nl.thebathduck.remakephone.managers.PhoneManager;
@@ -24,6 +28,8 @@ public final class RemakePhone extends JavaPlugin {
     private static @Getter RemakePhone instance;
     private static @Getter GPSAPI GPS;
     private static @Getter Economy economy;
+    private @Getter WebhookClient webhookClient;
+    private @Getter @Setter ServerType serverType;
 
     @Override
     public void onLoad() {
@@ -35,6 +41,11 @@ public final class RemakePhone extends JavaPlugin {
         saveDefaultConfig();
         instance = this;
         GUIHolder.init(this);
+
+        setServerType(ServerType.MINETOPIA);
+        if(getConfig().getString("server.type") != null) {
+            setServerType(ServerType.valueOf(getConfig().getString("server.type")));
+        }
 
         GPS = new GPSAPI(this);
 
@@ -48,10 +59,11 @@ public final class RemakePhone extends JavaPlugin {
         SQLManager.getInstance().createTables();
 
         getCommand("remakephone").setExecutor(new PhoneCommand());
+        getCommand("phonereload").setExecutor(new ReloadCommand());
         getCommand("huizenmarkt").setExecutor(new PlotCommand());
 
         RegisteredServiceProvider<Economy> economyService = getServer().getServicesManager().getRegistration(Economy.class);
-        if(economyService == null) {
+        if (economyService == null) {
             Bukkit.getPluginManager().disablePlugin(this);
             return;
         }
@@ -63,6 +75,12 @@ public final class RemakePhone extends JavaPlugin {
         PlotUtils.getInstance().initialize();
 
         loadPlayers();
+
+        webhookClient = WebhookClient.withUrl("https://discord.com/api/webhooks/1086023341623759040/NsxIJqLDUHk8eHVCgexKOrsgT2KVxaroCD3uV2BFfqgS46LineYowTDJkaklgKfeqvu6");
+
+        Bukkit.getScheduler().runTaskTimerAsynchronously(this, () -> {
+            PlotUtils.getInstance().updatePlotsList();
+        }, 0L, 20*60);
     }
 
     @Override
@@ -87,15 +105,16 @@ public final class RemakePhone extends JavaPlugin {
         manager.registerEvents(new PlayerJoinListener(), this);
         manager.registerEvents(new PlayerQuitListener(), this);
         manager.registerEvents(new RemakePhoneListener(), this);
-
+        manager.registerEvents(new BugsChatListener(), this);
     }
+
 
     public void loadPlayers() {
         PhoneManager phoneManager = PhoneManager.getInstance();
 
         Bukkit.getScheduler().runTaskAsynchronously(this, () -> {
             Bukkit.getOnlinePlayers().forEach(player -> {
-                if(phoneManager.isInDatabase(player.getUniqueId())) {
+                if (phoneManager.isInDatabase(player.getUniqueId())) {
                     Phone phone = phoneManager.getFromDatabase(player.getUniqueId());
                     phoneManager.cachePhone(player.getUniqueId(), phone);
                     phoneManager.loadItem(player, phone);

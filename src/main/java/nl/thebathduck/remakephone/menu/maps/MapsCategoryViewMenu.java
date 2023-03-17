@@ -1,7 +1,6 @@
 package nl.thebathduck.remakephone.menu.maps;
 
 import io.github.bananapuncher714.nbteditor.NBTEditor;
-import nl.thebathduck.remakephone.RemakePhone;
 import nl.thebathduck.remakephone.enums.PhoneIcon;
 import nl.thebathduck.remakephone.managers.NavigationManager;
 import nl.thebathduck.remakephone.objects.maps.NavigationCategory;
@@ -43,7 +42,7 @@ public class MapsCategoryViewMenu extends GUIHolder {
         Player player = (Player) event.getWhoClicked();
 
         String action = NBTEditor.getString(event.getCurrentItem(), "action");
-        if(action != null) {
+        if (action != null) {
             new MapsCategoryMenu(player);
             return;
         }
@@ -54,7 +53,7 @@ public class MapsCategoryViewMenu extends GUIHolder {
     }
 
     public void loadUI() {
-        for(int i = 45; i<45+9; i++) {
+        for (int i = 45; i < 45 + 9; i++) {
             ItemStack empty = new ItemBuilder(Material.STAINED_GLASS_PANE).setDurability((short) 0).setColoredName(" ").build();
             inventory.setItem(i, empty);
 

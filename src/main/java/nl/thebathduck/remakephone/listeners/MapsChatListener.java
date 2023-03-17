@@ -18,7 +18,7 @@ public class MapsChatListener implements Listener {
     @EventHandler
     public void onMapsChatEvent(AsyncPlayerChatEvent event) {
         Player player = event.getPlayer();
-        if(!listening.contains(player.getUniqueId())) return;
+        if (!listening.contains(player.getUniqueId())) return;
         event.setCancelled(true);
         listening.remove(player.getUniqueId());
         new MapsSearchMenu(player, event.getMessage());

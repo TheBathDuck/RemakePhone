@@ -1,5 +1,6 @@
 package nl.thebathduck.remakephone.utils;
 
+import com.sk89q.worldguard.bukkit.RegionQuery;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.protection.flags.BooleanFlag;
 import com.sk89q.worldguard.protection.flags.Flag;
@@ -15,9 +16,10 @@ import org.bukkit.World;
 import org.bukkit.plugin.Plugin;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class PlotUtils {
 
@@ -64,36 +66,51 @@ public class PlotUtils {
         Bukkit.getWorlds().forEach(world -> {
             RegionManager manager = worldGuard.getRegionManager(world);
             manager.getRegions().values().forEach(region -> {
-                if(region.getFlag(RMT_PLOTS_PRICE) != null) {
+                if (region.getFlag(RMT_PLOTS_PRICE) != null) {
                     huizenMarktRegions.add(region);
-                    Bukkit.getLogger().info("[DEV] Region: " + region.getId() + " found and loaded!");
+                    //Bukkit.getLogger().info("[DEV] Region: " + region.getId() + " found and loaded!");
                 }
             });
         });
+    }
+
+    public void updatePlotsList() {
+        huizenMarktRegions.clear();
+        initialize();
     }
 
     public ArrayList<ProtectedRegion> getPlots(World world, double prizeRange) {
         ArrayList<ProtectedRegion> regions = new ArrayList<>();
         huizenMarktRegions.forEach(region -> {
             int prize = region.getFlag(RMT_PLOTS_PRICE);
-            if(prizeRange < prize) return;
+            if (prizeRange < prize) return;
             regions.add(region);
         });
         return regions;
     }
 
-    public ProtectedRegion getRegion(Location location) {
-        RegionManager regionManager = worldGuard.getRegionManager(location.getWorld());
-        if (regionManager == null) return null;
-        ProtectedRegion region = null;
-        try {
-            region = regionManager.getApplicableRegions(location).getRegions().iterator().next();
-        } catch (Exception e) {
-            return null;
-        }
-        return region;
-    }
+//    public ProtectedRegion getRegion(Location location) {
+//        RegionManager regionManager = worldGuard.getRegionManager(location.getWorld());
+//        if (regionManager == null) return null;
+//        ProtectedRegion region = null;
+//        try {
+//            region = regionManager.getApplicableRegions(location).getRegions().iterator().next();
+//        } catch (Exception e) {
+//            return null;
+//        }
+//        return region;
+//    }
 
+    public ProtectedRegion getRegion(Location location) {
+        RegionQuery query = worldGuard.getRegionContainer().createQuery();
+        Set<ProtectedRegion> regions = query.getApplicableRegions(location).getRegions().stream().filter(region -> region.getPriority() >= 0).collect(Collectors.toSet());
+        Iterator<ProtectedRegion> iterator = regions.iterator();
+
+        if(iterator.hasNext()) {
+            return iterator.next();
+        }
+        return null;
+    }
 
 
     /**

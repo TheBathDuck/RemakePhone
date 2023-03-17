@@ -1,9 +1,14 @@
 database:
-  ip: '157.90.233.130'
+  ip: '185.150.96.162'
   port: 3306
-  database: 's5_remakephone'
-  username: 'u5_QkBEt7y5Ls'
-  password: '3w7!BGDpbAhP@JjzV.sSCg.9'
+  database: 's4_RemakePhone'
+  username: 'u4_a9iOlHxGOJ'
+  password: '+^ZuXdvDTAjutuIRlkD@^idr'
+
+#Opties: 'MINETOPIA' of 'GRINDING'
+# Grinding: Andere starterskit & grinding skins ipv telefoon skins.
+server:
+  type: 'GRINDING'
 
 huizenmarkt:
   icon: "https://textures.minecraft.net/texture/2854060aa5776b73668c89865909d12d0622483e600b646f90c186c65b75ff45"

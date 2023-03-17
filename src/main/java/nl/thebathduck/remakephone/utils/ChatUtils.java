@@ -10,6 +10,7 @@ public class ChatUtils {
     public static String color(String message) {
         return ChatColor.translateAlternateColorCodes('&', message);
     }
+
     public static String strip(String message) {
         return ChatColor.stripColor(message);
     }

@@ -2,11 +2,9 @@ package nl.thebathduck.remakephone.managers;
 
 import lombok.Getter;
 import nl.thebathduck.remakephone.enums.PhoneSkin;
-import nl.thebathduck.remakephone.objects.Contact;
 import nl.thebathduck.remakephone.objects.Phone;
 import nl.thebathduck.remakephone.utils.ItemBuilder;
 import nl.thebathduck.remakephone.utils.sql.SQLManager;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
@@ -14,7 +12,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Random;
+import java.util.UUID;
 
 public class PhoneManager {
 

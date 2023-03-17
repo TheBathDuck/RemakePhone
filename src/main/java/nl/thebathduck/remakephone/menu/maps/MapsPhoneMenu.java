@@ -42,7 +42,7 @@ public class MapsPhoneMenu extends GUIHolder {
                 .build()
         );
 
-        if(RemakePhone.getGPS().gpsIsActive(player)) {
+        if (RemakePhone.getGPS().gpsIsActive(player)) {
             inventory.setItem(8, new ItemBuilder(PhoneIcon.GPS_STOP.getMaterial())
                     .setNBT(PhoneIcon.GPS_STOP.getKey(), PhoneIcon.GPS_STOP.getValue())
                     .setColoredName("&cStop navigatie")

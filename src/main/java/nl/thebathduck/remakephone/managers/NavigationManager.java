@@ -11,8 +11,9 @@ import java.util.HashMap;
 public class NavigationManager {
 
     private static NavigationManager instance;
+
     public static NavigationManager getInstance() {
-        if(instance == null) instance = new NavigationManager();
+        if (instance == null) instance = new NavigationManager();
         return instance;
     }
 
@@ -25,6 +26,12 @@ public class NavigationManager {
         allLocations = new HashMap<>();
     }
 
+    public void reload() {
+        categories.clear();
+        allLocations.clear();
+        initialize();
+    }
+
     public NavigationLocation getNavigationLocation(String name) {
         return allLocations.get(name);
     }
@@ -32,13 +39,13 @@ public class NavigationManager {
     public void initialize() {
         FileConfiguration config = RemakePhone.getInstance().getConfig();
 
-        for(String catString : config.getConfigurationSection("categorieen").getKeys(false)) {
+        for (String catString : config.getConfigurationSection("categorieen").getKeys(false)) {
             String displayName = config.getString("categorieen." + catString + ".displayname");
             String iconUrl = config.getString("categorieen." + catString + ".icon");
             NavigationCategory navCategory = new NavigationCategory(catString, displayName, iconUrl);
             categories.put(navCategory.getName(), navCategory);
 
-            for(String locString : config.getConfigurationSection("categorieen." + catString + ".locaties").getKeys(false)) {
+            for (String locString : config.getConfigurationSection("categorieen." + catString + ".locaties").getKeys(false)) {
                 String displayname = config.getString("categorieen." + catString + ".locaties." + locString + ".displayname");
                 String gpsvalue = config.getString("categorieen." + catString + ".locaties." + locString + ".gpsvalue");
                 String navIconUrl = config.getString("categorieen." + catString + ".locaties." + locString + ".icon");
@@ -49,7 +56,6 @@ public class NavigationManager {
 
         }
     }
-
 
 
 }

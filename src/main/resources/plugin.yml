@@ -12,3 +12,4 @@ depend:
 commands:
   remakephone: {}
   huizenmarkt: {}
+  phonereload: {}

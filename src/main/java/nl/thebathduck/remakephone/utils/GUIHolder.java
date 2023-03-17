@@ -43,7 +43,7 @@ public abstract class GUIHolder implements InventoryHolder {
 
     }
 
-    public void open(Player player){
+    public void open(Player player) {
         player.openInventory(inventory);
     }
 }

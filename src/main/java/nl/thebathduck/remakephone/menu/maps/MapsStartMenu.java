@@ -42,8 +42,8 @@ public class MapsStartMenu extends GUIHolder {
         Player player = (Player) event.getWhoClicked();
         String action = NBTEditor.getString(event.getCurrentItem(), "action");
 
-        if(action == null) return;
-        if(action.equals("cancel")) {
+        if (action == null) return;
+        if (action.equals("cancel")) {
             player.closeInventory();
             return;
         }
