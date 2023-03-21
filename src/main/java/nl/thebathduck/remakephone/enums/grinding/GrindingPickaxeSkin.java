@@ -1,8 +1,8 @@
-package nl.thebathduck.remakephone.enums;
+package nl.thebathduck.remakephone.enums.grinding;
 
 import lombok.Getter;
 
-public enum GrindingSkin {
+public enum GrindingPickaxeSkin {
     WOOD_REFINED("Refinded Wooden Pickaxe", "grindingskin.wood_pickaxe_refined", "wood_pickaxe_refined"),
     STONE_REFINED("Refinded Stone Pickaxe", "grindingskin.stone_pickaxe_refined", "stone_pickaxe_refined"),
     CACTUS("Cactus Pickaxe", "grindingskin.cactus", "cactus_pickaxe"),
@@ -47,7 +47,7 @@ public enum GrindingSkin {
     private @Getter String name;
     private @Getter String permission;
     private @Getter String nbt;
-    GrindingSkin(String name, String permission, String nbt) {
+    GrindingPickaxeSkin(String name, String permission, String nbt) {
         this.name = name;
         this.permission = permission;
         this.nbt = nbt;

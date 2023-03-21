@@ -5,6 +5,7 @@ import com.live.bemmamin.gps.api.GPSAPI;
 import lombok.Getter;
 import lombok.Setter;
 import net.milkbowl.vault.economy.Economy;
+import nl.thebathduck.remakephone.commands.NotValidOnThisServerCommand;
 import nl.thebathduck.remakephone.commands.PhoneCommand;
 import nl.thebathduck.remakephone.commands.PlotCommand;
 import nl.thebathduck.remakephone.commands.ReloadCommand;
@@ -58,9 +59,14 @@ public final class RemakePhone extends JavaPlugin {
         );
         SQLManager.getInstance().createTables();
 
-        getCommand("remakephone").setExecutor(new PhoneCommand());
         getCommand("phonereload").setExecutor(new ReloadCommand());
-        getCommand("huizenmarkt").setExecutor(new PlotCommand());
+        getCommand("remakephone").setExecutor(new PhoneCommand());
+
+        if(serverType.equals(ServerType.MINETOPIA)) {
+            getCommand("huizenmarkt").setExecutor(new PlotCommand());
+        } else {
+            getCommand("huizenmarkt").setExecutor(new NotValidOnThisServerCommand());
+        }
 
         RegisteredServiceProvider<Economy> economyService = getServer().getServicesManager().getRegistration(Economy.class);
         if (economyService == null) {

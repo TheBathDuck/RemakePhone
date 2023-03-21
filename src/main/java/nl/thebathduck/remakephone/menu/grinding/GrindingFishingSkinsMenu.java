@@ -1,10 +1,13 @@
 package nl.thebathduck.remakephone.menu.grinding;
 
 import io.github.bananapuncher714.nbteditor.NBTEditor;
-import nl.thebathduck.remakephone.enums.GrindingSkin;
+import nl.thebathduck.remakephone.enums.grinding.GrindingFishingSkin;
+import nl.thebathduck.remakephone.enums.grinding.GrindingPickaxeSkin;
+import nl.thebathduck.remakephone.utils.ChatUtils;
 import nl.thebathduck.remakephone.utils.GUIHolder;
 import nl.thebathduck.remakephone.utils.ItemBuilder;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -17,10 +20,10 @@ public class GrindingFishingSkinsMenu extends GUIHolder {
 
     public GrindingFishingSkinsMenu(Player player) {
         this.player = player;
-        this.inventory = Bukkit.createInventory(this, 6 * 9, "Selecteer je pickaxe skin.");
+        this.inventory = Bukkit.createInventory(this, 6 * 9, "Selecteer je vishengel skin.");
 
-        for (GrindingSkin skin : GrindingSkin.values()) {
-            ItemBuilder builder = new ItemBuilder(Material.STONE_PICKAXE);
+        for (GrindingFishingSkin skin : GrindingFishingSkin.values()) {
+            ItemBuilder builder = new ItemBuilder(Material.FISHING_ROD);
             builder.setColoredName("&3" + skin.getName());
             builder.setItemFlags();
 
@@ -47,14 +50,15 @@ public class GrindingFishingSkinsMenu extends GUIHolder {
         String nbtSkin = NBTEditor.getString(event.getCurrentItem(), "skin");
         if(nbtSkin == null) return;
 
-        GrindingSkin skin = GrindingSkin.valueOf(nbtSkin.toUpperCase());
-        player.sendMessage("Checking appliance of skin: " + skin.getName());
+        GrindingFishingSkin skin = GrindingFishingSkin.valueOf(nbtSkin.toUpperCase());
+        String skinName = ChatColor.stripColor(skin.getName());
+        player.sendMessage(ChatUtils.color("&3Je hebt je &bvishengel &3skin veranderd naar &b" + skinName));
 
         Inventory inv = player.getInventory();
         for (int i = 0; i <= 35; i++) {
             ItemStack item = inv.getItem(i);
             if(item == null) continue;
-            if(!item.getType().equals(Material.STONE_PICKAXE)) continue;
+            if(!item.getType().equals(Material.FISHING_ROD)) continue;
 
             ItemBuilder skinBuilder = new ItemBuilder(item);
             skinBuilder.setColoredName("&f" + skin.getName());

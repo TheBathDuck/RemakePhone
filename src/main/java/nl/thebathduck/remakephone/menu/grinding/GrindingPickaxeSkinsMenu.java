@@ -1,10 +1,12 @@
 package nl.thebathduck.remakephone.menu.grinding;
 
 import io.github.bananapuncher714.nbteditor.NBTEditor;
-import nl.thebathduck.remakephone.enums.GrindingSkin;
+import nl.thebathduck.remakephone.enums.grinding.GrindingPickaxeSkin;
+import nl.thebathduck.remakephone.utils.ChatUtils;
 import nl.thebathduck.remakephone.utils.GUIHolder;
 import nl.thebathduck.remakephone.utils.ItemBuilder;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -19,7 +21,7 @@ public class GrindingPickaxeSkinsMenu extends GUIHolder {
         this.player = player;
         this.inventory = Bukkit.createInventory(this, 6 * 9, "Selecteer je pickaxe skin.");
 
-        for (GrindingSkin skin : GrindingSkin.values()) {
+        for (GrindingPickaxeSkin skin : GrindingPickaxeSkin.values()) {
             ItemBuilder builder = new ItemBuilder(Material.STONE_PICKAXE);
             builder.setColoredName("&3" + skin.getName());
             builder.setItemFlags();
@@ -47,8 +49,9 @@ public class GrindingPickaxeSkinsMenu extends GUIHolder {
         String nbtSkin = NBTEditor.getString(event.getCurrentItem(), "skin");
         if(nbtSkin == null) return;
 
-        GrindingSkin skin = GrindingSkin.valueOf(nbtSkin.toUpperCase());
-        player.sendMessage("Checking appliance of skin: " + skin.getName());
+        GrindingPickaxeSkin skin = GrindingPickaxeSkin.valueOf(nbtSkin.toUpperCase());
+        String skinName = ChatColor.stripColor(skin.getName());
+        player.sendMessage(ChatUtils.color("&3Je hebt je &bpickaxe &3skin veranderd naar &b" + skinName));
 
         Inventory inv = player.getInventory();
         for (int i = 0; i <= 35; i++) {
