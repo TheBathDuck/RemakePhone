@@ -63,10 +63,13 @@ public class PlotUtils {
     }
 
     public void initialize() {
+        Bukkit.getLogger().info("[Plot-loader] Starting!");
         Bukkit.getWorlds().forEach(world -> {
+            Bukkit.getLogger().info("[Plot-loader] World: " + world.getName());
             RegionManager manager = worldGuard.getRegionManager(world);
             manager.getRegions().values().forEach(region -> {
                 if (region.getFlag(RMT_PLOTS_PRICE) != null) {
+                    Bukkit.getLogger().info("[Plot-loader] " + world.getName() + " -> " + region.getId());
                     huizenMarktRegions.add(region);
                     //Bukkit.getLogger().info("[DEV] Region: " + region.getId() + " found and loaded!");
                 }
@@ -79,7 +82,7 @@ public class PlotUtils {
         initialize();
     }
 
-    public ArrayList<ProtectedRegion> getPlots(World world, double prizeRange) {
+    public ArrayList<ProtectedRegion> getPlots(double prizeRange) {
         ArrayList<ProtectedRegion> regions = new ArrayList<>();
         huizenMarktRegions.forEach(region -> {
             int prize = region.getFlag(RMT_PLOTS_PRICE);

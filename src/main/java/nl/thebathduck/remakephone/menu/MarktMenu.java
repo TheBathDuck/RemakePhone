@@ -18,7 +18,7 @@ public class MarktMenu extends GUIHolder {
 
         this.inventory = Bukkit.createInventory(this, 6 * 9, ChatUtils.color("&cHuizenmarkt &7- &6Pagina ") + (page + 1));
         double balance = RemakePhone.getEconomy().getBalance(player);
-        ArrayList<ProtectedRegion> regions = new ArrayList<>(PlotUtils.getInstance().getPlots(player.getWorld(), balance));
+        ArrayList<ProtectedRegion> regions = new ArrayList<>(PlotUtils.getInstance().getPlots(balance));
         int pageSize = 4 * 9;
 
         for (int i = 36; i <= 36 + 8; i++) {

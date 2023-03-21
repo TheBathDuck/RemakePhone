@@ -8,9 +8,18 @@ database:
 #Opties: 'MINETOPIA' of 'GRINDING'
 # Grinding: Andere starterskit & grinding skins ipv telefoon skins.
 server:
-  type: 'GRINDING'
+  type: 'MINETOPIA'
 
 huizenmarkt:
+  colors:
+    uptown: "&6"
+    westside: "&2"
+    downtown: "&b"
+    lakeside: "&3"
+    oldtown: "&8"
+    vicecity: "&1"
+    harbor: "&e"
+    rodedorp: "&5"
   icon: "https://textures.minecraft.net/texture/2854060aa5776b73668c89865909d12d0622483e600b646f90c186c65b75ff45"
 
 categorieen:

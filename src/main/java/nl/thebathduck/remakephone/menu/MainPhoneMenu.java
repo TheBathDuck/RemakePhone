@@ -1,9 +1,13 @@
 package nl.thebathduck.remakephone.menu;
 
 import io.github.bananapuncher714.nbteditor.NBTEditor;
+import nl.thebathduck.remakephone.RemakePhone;
 import nl.thebathduck.remakephone.enums.PhoneIcon;
+import nl.thebathduck.remakephone.enums.ServerType;
 import nl.thebathduck.remakephone.listeners.BugsChatListener;
 import nl.thebathduck.remakephone.managers.PhoneManager;
+import nl.thebathduck.remakephone.menu.grinding.GrindingPickaxeSkinsMenu;
+import nl.thebathduck.remakephone.menu.grinding.GrindingSkinSelectionMenu;
 import nl.thebathduck.remakephone.menu.maps.MapsPhoneMenu;
 import nl.thebathduck.remakephone.objects.Phone;
 import nl.thebathduck.remakephone.utils.ChatUtils;
@@ -104,13 +108,23 @@ public class MainPhoneMenu extends GUIHolder {
         );
 
 
-        inventory.setItem(14, new ItemBuilder(PhoneIcon.SKINS.getMaterial())
-                .setNBT(PhoneIcon.SKINS.getKey(), PhoneIcon.SKINS.getValue())
-                .setColoredName("&cTelefoon Skins")
-                .setNBT("menu", "skin")
-                .setItemFlags()
-                .build()
-        );
+        if(RemakePhone.getInstance().getServerType().equals(ServerType.GRINDING)) {
+            inventory.setItem(14, new ItemBuilder(PhoneIcon.GRINDING_SKINS.getMaterial())
+                    .setNBT(PhoneIcon.GRINDING_SKINS.getKey(), PhoneIcon.GRINDING_SKINS.getValue())
+                    .setColoredName("&cGrinding Skins")
+                    .setNBT("menu", "grindingskins")
+                    .setItemFlags()
+                    .build()
+            );
+        } else {
+            inventory.setItem(14, new ItemBuilder(PhoneIcon.SKINS.getMaterial())
+                    .setNBT(PhoneIcon.SKINS.getKey(), PhoneIcon.SKINS.getValue())
+                    .setColoredName("&cTelefoon Skins")
+                    .setNBT("menu", "skin")
+                    .setItemFlags()
+                    .build()
+            );
+        }
 
         inventory.setItem(15, new ItemBuilder(Material.FLINT)
                 .setNBT(PhoneIcon.HUIZENMARKT.getKey(), PhoneIcon.HUIZENMARKT.getValue())
@@ -169,6 +183,9 @@ public class MainPhoneMenu extends GUIHolder {
                 BugsChatListener.getListening().add(player.getUniqueId());
                 player.sendMessage(ChatUtils.color("&aType nu je bug report, om te annuleren type \'annuleren\n'."));
                 player.closeInventory();
+                break;
+            case "grindingskins":
+                new GrindingSkinSelectionMenu(player);
                 break;
             default:
                 return;
