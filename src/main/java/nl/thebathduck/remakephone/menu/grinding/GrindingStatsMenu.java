@@ -31,7 +31,7 @@ public class GrindingStatsMenu extends GUIHolder {
 
         inventory.addItem(new ItemBuilder(Material.EXP_BOTTLE)
                 .setColoredName("&6Grinding Level")
-                .addLoreLine("&7Grindlevel: &e" + grindData.getGrindCoins())
+                .addLoreLine("&7Grindlevel: &e" + level)
                 .addLoreLine("&7Volgend level: &e" + grindData.getGrindXP() + "&7/&e" + requiredXP)
                 .build()
         );
