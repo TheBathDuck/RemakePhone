@@ -5,10 +5,7 @@ import com.live.bemmamin.gps.api.GPSAPI;
 import lombok.Getter;
 import lombok.Setter;
 import net.milkbowl.vault.economy.Economy;
-import nl.thebathduck.remakephone.commands.NotValidOnThisServerCommand;
-import nl.thebathduck.remakephone.commands.PhoneCommand;
-import nl.thebathduck.remakephone.commands.PlotCommand;
-import nl.thebathduck.remakephone.commands.ReloadCommand;
+import nl.thebathduck.remakephone.commands.*;
 import nl.thebathduck.remakephone.enums.ServerType;
 import nl.thebathduck.remakephone.listeners.*;
 import nl.thebathduck.remakephone.managers.NavigationManager;
@@ -64,7 +61,9 @@ public final class RemakePhone extends JavaPlugin {
 
         if(serverType.equals(ServerType.MINETOPIA)) {
             getCommand("huizenmarkt").setExecutor(new PlotCommand());
+            getCommand("plotinfo").setExecutor(new PlotinfoCommandOverride());
         } else {
+            getCommand("plotinfo").setExecutor(new NotValidOnThisServerCommand());
             getCommand("huizenmarkt").setExecutor(new NotValidOnThisServerCommand());
         }
 

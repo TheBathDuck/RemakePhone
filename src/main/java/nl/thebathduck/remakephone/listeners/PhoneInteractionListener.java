@@ -1,5 +1,7 @@
 package nl.thebathduck.remakephone.listeners;
 
+import be.razerstorm.remakegrinding.RemakeGrinding;
+import be.razerstorm.remakegrinding.objects.PlayerData;
 import nl.thebathduck.remakephone.RemakePhone;
 import nl.thebathduck.remakephone.managers.PhoneManager;
 import nl.thebathduck.remakephone.menu.MainPhoneMenu;
@@ -22,6 +24,7 @@ public class PhoneInteractionListener implements Listener {
 
         if (!event.getItem().getType().equals(Material.BLAZE_POWDER)) return;
         Player player = event.getPlayer();
+
 
         Bukkit.getScheduler().runTaskAsynchronously(RemakePhone.getInstance(), () -> {
             PhoneManager phoneManager = PhoneManager.getInstance();

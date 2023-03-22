@@ -27,7 +27,8 @@ public enum PhoneIcon {
     GPS_START(Material.IRON_INGOT, "mtwcustom", "phone_icon25"),
     GPS_STOP(Material.IRON_INGOT, "mtwcustom", "phone_icon26"),
 
-    GRINDING_SKINS(Material.IRON_INGOT, "mtwcustom", "phone_skin42");
+    GRINDING_SKINS(Material.IRON_INGOT, "mtwcustom", "phone_icon42"),
+    STATS_ICON(Material.IRON_INGOT, "mtwcustom", "phone_icon41");
 
 
 

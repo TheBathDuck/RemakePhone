@@ -8,6 +8,7 @@ import nl.thebathduck.remakephone.listeners.BugsChatListener;
 import nl.thebathduck.remakephone.managers.PhoneManager;
 import nl.thebathduck.remakephone.menu.grinding.GrindingPickaxeSkinsMenu;
 import nl.thebathduck.remakephone.menu.grinding.GrindingSkinSelectionMenu;
+import nl.thebathduck.remakephone.menu.grinding.GrindingStatsMenu;
 import nl.thebathduck.remakephone.menu.maps.MapsPhoneMenu;
 import nl.thebathduck.remakephone.objects.Phone;
 import nl.thebathduck.remakephone.utils.ChatUtils;
@@ -116,6 +117,13 @@ public class MainPhoneMenu extends GUIHolder {
                     .setItemFlags()
                     .build()
             );
+            inventory.setItem(23, new ItemBuilder(PhoneIcon.STATS_ICON.getMaterial())
+                    .setNBT(PhoneIcon.STATS_ICON.getKey(), PhoneIcon.STATS_ICON.getValue())
+                    .setColoredName("&cGrinding Info")
+                    .setNBT("menu", "grindinginfo")
+                    .setItemFlags()
+                    .build()
+            );
         } else {
             inventory.setItem(14, new ItemBuilder(PhoneIcon.SKINS.getMaterial())
                     .setNBT(PhoneIcon.SKINS.getKey(), PhoneIcon.SKINS.getValue())
@@ -186,6 +194,9 @@ public class MainPhoneMenu extends GUIHolder {
                 break;
             case "grindingskins":
                 new GrindingSkinSelectionMenu(player);
+                break;
+            case "grindinginfo":
+                new GrindingStatsMenu(player);
                 break;
             default:
                 return;

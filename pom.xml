@@ -121,6 +121,13 @@
             <systemPath>${project.basedir}/libs/GPS.jar</systemPath>
         </dependency>
         <dependency>
+            <groupId>be.razerstorm</groupId>
+            <artifactId>remakegrinding</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/libs/RemakeGrinding.jar</systemPath>
+        </dependency>
+        <dependency>
             <groupId>com.github.MilkBowl</groupId>
             <artifactId>VaultAPI</artifactId>
             <version>1.7</version>
