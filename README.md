@@ -15,6 +15,7 @@
 Je hebt 2 verschillende Server Types, `MINETOPIA` & `GRINDING`. Je kan je server type in de config aanpassen, als je dit doet verandert het menu in de telefoon, telefoon skins worden grinding skins en je krijgt een extra optie met Grinding stats.
 
 ### Feature's
+| Feature | Status |
 | :------------ | :------------ |
 | GPS | ✔️ |
 | Telefoon Skins | ✔️ |
