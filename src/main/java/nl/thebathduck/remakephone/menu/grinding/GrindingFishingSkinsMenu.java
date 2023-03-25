@@ -51,6 +51,10 @@ public class GrindingFishingSkinsMenu extends GUIHolder {
         if(nbtSkin == null) return;
 
         GrindingFishingSkin skin = GrindingFishingSkin.valueOf(nbtSkin.toUpperCase());
+        if(!player.hasPermission(skin.getPermission())) {
+            player.sendMessage(ChatUtils.color("&cJe hebt geen toegang tot deze skin."));
+            return;
+        }
         String skinName = ChatColor.stripColor(skin.getName());
         player.sendMessage(ChatUtils.color("&3Je hebt je &bvishengel &3skin veranderd naar &b" + skinName));
 

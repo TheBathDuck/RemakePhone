@@ -92,6 +92,11 @@ public class ItemBuilder {
         return this;
     }
 
+    public ItemBuilder setType(Material material) {
+        is.setType(material);
+        return this;
+    }
+
     /**
      * Change the durability of the item.
      *

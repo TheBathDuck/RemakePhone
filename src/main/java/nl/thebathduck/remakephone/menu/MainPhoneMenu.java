@@ -128,7 +128,7 @@ public class MainPhoneMenu extends GUIHolder {
             inventory.setItem(14, new ItemBuilder(PhoneIcon.SKINS.getMaterial())
                     .setNBT(PhoneIcon.SKINS.getKey(), PhoneIcon.SKINS.getValue())
                     .setColoredName("&cTelefoon Skins")
-                    .setNBT("menu", "skin")
+                    .setNBT("menu", "phoneskin")
                     .setItemFlags()
                     .build()
             );
@@ -178,7 +178,7 @@ public class MainPhoneMenu extends GUIHolder {
         if (menu == null) return;
 
         switch (menu) {
-            case "skin":
+            case "phoneskin":
                 new SkinPhoneMenu(player);
                 break;
             case "maps":

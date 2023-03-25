@@ -22,10 +22,12 @@ public class GrindingStatsMenu extends GUIHolder {
 
         int level = RemakeGrinding.getInstance().getLevelFromXP(grindData.getGrindXP());
         int requiredXP = RemakeGrinding.getInstance().getXpLevels().get(level + 1);
+        double canMine = (RemakeGrinding.getInstance().getConfig().getInt("max-grindcoins-per-day") - grindData.getEarnedGrindCoins());
 
         inventory.addItem(new ItemBuilder(Material.GOLD_NUGGET)
                 .setColoredName("&6Grind Coins")
                 .addLoreLine("&7Grindcoins: &e" + grindData.getGrindCoins())
+                .addLoreLine("&7Je kan nog &e" + canMine + " &7grindcoins vandaag minen.")
                 .build()
         );
 
@@ -65,7 +67,7 @@ public class GrindingStatsMenu extends GUIHolder {
         if (event.getCurrentItem().getType().equals(Material.AIR)) return;
         event.setCancelled(true);
 
-        if(event.getCurrentItem().getType().equals(Material.IRON_INGOT)) {
+        if (event.getCurrentItem().getType().equals(Material.IRON_INGOT)) {
             new MainPhoneMenu(player);
         }
     }

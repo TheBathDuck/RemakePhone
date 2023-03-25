@@ -1,6 +1,7 @@
 package nl.thebathduck.remakephone.commands;
 
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
+import net.milkbowl.vault.economy.Economy;
 import nl.thebathduck.remakephone.RemakePhone;
 import nl.thebathduck.remakephone.utils.ChatUtils;
 import nl.thebathduck.remakephone.utils.PlotUtils;
@@ -100,6 +101,7 @@ public class PlotCommand implements CommandExecutor {
                 player.sendMessage(ChatUtils.color("&cDit plot kan je niet kopen!"));
                 return false;
             }
+            Economy econ = RemakePhone.getEconomy();
 
             /* Check if plot is on huizenmarkt */
             if (region.getFlag(plotUtils.RMT_PLOTS_SELLING) != null && region.getFlag(plotUtils.RMT_PLOTS_SELLPRICE) != null) {
@@ -113,7 +115,7 @@ public class PlotCommand implements CommandExecutor {
                     return false;
                 }
                 player.sendMessage(ChatUtils.color("&6Je hebt het plot &c" + region.getId() + " &6gekocht van de huizenmarkt voor &c€" + price));
-
+                econ.withdrawPlayer(player, price);
                 Optional<UUID> optionalOwner = region.getOwners().getUniqueIds().stream().findFirst();
                 if(optionalOwner.isPresent()) {
                     OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(optionalOwner.get());
@@ -142,6 +144,7 @@ public class PlotCommand implements CommandExecutor {
                 player.sendMessage(ChatUtils.color("&cJe hebt niet genoeg op je bankrekening staan om dit plot aan te schaffen."));
                 return false;
             }
+            econ.withdrawPlayer(player, price);
             player.sendMessage(ChatUtils.color("&6Je hebt het plot &c" + region.getId() + " &6gekocht voor &c€" + price));
             region.getOwners().addPlayer(player.getUniqueId());
             region.getMembers().clear();
@@ -218,32 +221,7 @@ public class PlotCommand implements CommandExecutor {
         }
 
         if (args[0].equalsIgnoreCase("info")) {
-            ProtectedRegion region = plotUtils.getRegion(player.getLocation());
-            if (region == null) {
-                player.sendMessage(ChatUtils.color("&cJe staat niet op een geldig plot."));
-                return false;
-            }
-            if (region.getFlag(plotUtils.RMT_PLOTS_PRICE) == null) {
-                player.sendMessage(ChatUtils.color("&cJe staat niet op een geldig plot."));
-                return false;
-            }
-            String ownerSign = (region.getOwners().size() >= 1 ? "Eigenaren" : "Eigenaar");
-            String owners = "";
-            for (UUID uuid : region.getOwners().getUniqueIds()) {
-
-            }
-            player.sendMessage(ChatUtils.color("&6-------------"));
-            player.sendMessage(ChatUtils.color("&6Naam: &c" + region.getId()));
-
-            if (region.getFlag(plotUtils.RMT_PLOTS_SELLING) == null) {
-                player.sendMessage(ChatUtils.color("&6Prijs: &c€" + region.getFlag(plotUtils.RMT_PLOTS_PRICE)));
-            } else {
-                player.sendMessage(ChatUtils.color("&6Prijs: &c€" + region.getFlag(plotUtils.RMT_PLOTS_SELLPRICE) + " &6(Orgineel &c€" + region.getFlag(plotUtils.RMT_PLOTS_PRICE) + "&6)"));
-            }
-
-            player.sendMessage(ChatUtils.color("&6" + ownerSign + ": &c" + getOwners(region)));
-            player.sendMessage(ChatUtils.color("&6Leden: &c" + getMembers(region)));
-            player.sendMessage(ChatUtils.color("&6-------------"));
+            player.performCommand("plotinfo");
         }
 
         if(args[0].equalsIgnoreCase("dump")) {
@@ -280,7 +258,6 @@ public class PlotCommand implements CommandExecutor {
         }
         player.sendMessage(ChatUtils.color("&a/" + command + " &2sell <prijs> &f- &a" + "Zet je plot op de huizenmarkt voor je eigen prijs."));
         player.sendMessage(ChatUtils.color("&a/" + command + " &2buy &f- &a" + "Koop het plot waar je op staat"));
-        player.sendMessage(ChatUtils.color("&a/" + command + " &2info &f- &a" + "Bekijk informatie van een plot"));
         player.sendMessage(ChatUtils.color("&a/" + command + " &2quicksell &f- &a" + "Verkoop je plot voor 80% van de waarde"));
         player.sendMessage(ChatUtils.color("&a/" + command + " &2stopsale &f- &a" + "Stop het verkoop van je plot."));
 

@@ -63,6 +63,7 @@ public class RemakePhoneListener implements Listener {
 
     public void setPhoneItem(Player player, Phone phone) {
         PhoneSkin skin = phone.getSkin();
+        if(skin == null) skin = PhoneSkin.DEFAULT;
 
         ItemBuilder phoneItem = new ItemBuilder(Material.BLAZE_POWDER);
         phoneItem.setColoredName("&b" + skin.getName());
@@ -77,6 +78,7 @@ public class RemakePhoneListener implements Listener {
     @EventHandler
     public void onGamemodeSwitch(PlayerGameModeChangeEvent event) {
         Player player = event.getPlayer();
+        if(player == null) return;
         setPhoneItem(event.getPlayer(), PhoneManager.getInstance().getPhone(player.getUniqueId()));
     }
 

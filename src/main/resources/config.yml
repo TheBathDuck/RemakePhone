@@ -3,12 +3,12 @@ database:
   port: 3306
   database: 's4_RemakePhone'
   username: 'u4_a9iOlHxGOJ'
-  password: '+^ZuXdvDTAjutuIRlkD@^idr'
+  password: 'mnnL3@M.FtMK0t+.4rrCG6fI'
 
 #Opties: 'MINETOPIA' of 'GRINDING'
 # Grinding: Andere starterskit & grinding skins ipv telefoon skins.
 server:
-  type: 'MINETOPIA'
+  type: 'GRINDING'
 
 huizenmarkt:
   colors:

@@ -22,7 +22,7 @@ public class GrindingPickaxeSkinsMenu extends GUIHolder {
         this.inventory = Bukkit.createInventory(this, 6 * 9, "Selecteer je pickaxe skin.");
 
         for (GrindingPickaxeSkin skin : GrindingPickaxeSkin.values()) {
-            ItemBuilder builder = new ItemBuilder(Material.STONE_PICKAXE);
+            ItemBuilder builder = new ItemBuilder(skin.getMaterial());
             builder.setColoredName("&3" + skin.getName());
             builder.setItemFlags();
 
@@ -50,6 +50,10 @@ public class GrindingPickaxeSkinsMenu extends GUIHolder {
         if(nbtSkin == null) return;
 
         GrindingPickaxeSkin skin = GrindingPickaxeSkin.valueOf(nbtSkin.toUpperCase());
+        if(!player.hasPermission(skin.getPermission())) {
+            player.sendMessage(ChatUtils.color("&cJe hebt geen toegang tot deze skin."));
+            return;
+        }
         String skinName = ChatColor.stripColor(skin.getName());
         player.sendMessage(ChatUtils.color("&3Je hebt je &bpickaxe &3skin veranderd naar &b" + skinName));
 
@@ -57,9 +61,10 @@ public class GrindingPickaxeSkinsMenu extends GUIHolder {
         for (int i = 0; i <= 35; i++) {
             ItemStack item = inv.getItem(i);
             if(item == null) continue;
-            if(!item.getType().equals(Material.STONE_PICKAXE)) continue;
+            if(!item.getType().toString().contains("PICKAXE")) continue;
 
             ItemBuilder skinBuilder = new ItemBuilder(item);
+            skinBuilder.setType(skin.getMaterial());
             skinBuilder.setColoredName("&f" + skin.getName());
             skinBuilder.setNBT("mtwcustom", skin.getNbt());
             inv.setItem(i, skinBuilder.build());

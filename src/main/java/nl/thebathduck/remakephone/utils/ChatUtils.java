@@ -2,8 +2,10 @@ package nl.thebathduck.remakephone.utils;
 
 import org.bukkit.ChatColor;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class ChatUtils {
 
@@ -19,6 +21,11 @@ public class ChatUtils {
         List<String> temp = new ArrayList<>();
         list.forEach(item -> temp.add(color(item)));
         return temp;
+    }
+
+    public static String eco(double eco) {
+        NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.FRANCE);
+        return formatter.format(eco);
     }
 
 }

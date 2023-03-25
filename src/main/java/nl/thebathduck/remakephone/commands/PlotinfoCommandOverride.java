@@ -30,27 +30,22 @@ public class PlotinfoCommandOverride implements CommandExecutor {
             player.sendMessage(ChatUtils.color("&cJe staat niet op een geldig plot."));
             return false;
         }
-        if (region.getFlag(plotUtils.RMT_PLOTS_PRICE) == null) {
-            player.sendMessage(ChatUtils.color("&cJe staat niet op een geldig plot."));
-            return false;
-        }
-        String ownerSign = (region.getOwners().size() >= 1 ? "Eigenaren" : "Eigenaar");
-        String owners = "";
-        for (UUID uuid : region.getOwners().getUniqueIds()) {
 
-        }
-        player.sendMessage(ChatUtils.color("&6-------------"));
-        player.sendMessage(ChatUtils.color("&6Naam: &c" + region.getId()));
-
-        if (region.getFlag(plotUtils.RMT_PLOTS_SELLING) == null) {
-            player.sendMessage(ChatUtils.color("&6Prijs: &c€" + region.getFlag(plotUtils.RMT_PLOTS_PRICE)));
-        } else {
-            player.sendMessage(ChatUtils.color("&6Prijs: &c€" + region.getFlag(plotUtils.RMT_PLOTS_SELLPRICE) + " &6(Orgineel &c€" + region.getFlag(plotUtils.RMT_PLOTS_PRICE) + "&6)"));
-        }
-
-        player.sendMessage(ChatUtils.color("&6" + ownerSign + ": &c" + getOwners(region)));
+        player.sendMessage(ChatUtils.color("&6----------------"));
+        player.sendMessage(ChatUtils.color("&6Plot info voor: &c" + region.getId()));
+        player.sendMessage(ChatUtils.color("&6Eigenaar: &c" + getOwners(region)));
         player.sendMessage(ChatUtils.color("&6Leden: &c" + getMembers(region)));
-        player.sendMessage(ChatUtils.color("&6-------------"));
+
+        if (region.getFlag(plotUtils.RMT_PLOTS_PRICE) != null) {
+            player.sendMessage(ChatUtils.color("&6Standaard plot prijs: &c€" + ChatUtils.eco(region.getFlag(plotUtils.RMT_PLOTS_PRICE))));
+        }
+        if(region.getFlag(plotUtils.RMT_PLOTS_SELLING) != null) {
+            player.sendMessage(ChatUtils.color("&6Te koop, prijs: &c€" + ChatUtils.eco(region.getFlag(plotUtils.RMT_PLOTS_SELLPRICE))));
+        } else {
+            player.sendMessage(ChatUtils.color("&6Te koop, prijs: &c€" + ChatUtils.eco(region.getFlag(plotUtils.RMT_PLOTS_PRICE))));
+        }
+
+        player.sendMessage(ChatUtils.color("&6----------------"));
 
         return false;
     }

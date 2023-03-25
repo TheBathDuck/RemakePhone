@@ -24,7 +24,7 @@ import java.sql.SQLException;
 public final class RemakePhone extends JavaPlugin {
 
     private static @Getter RemakePhone instance;
-    private static @Getter GPSAPI GPS;
+    private static @Getter @Setter GPSAPI GPS;
     private static @Getter Economy economy;
     private @Getter WebhookClient webhookClient;
     private @Getter @Setter ServerType serverType;

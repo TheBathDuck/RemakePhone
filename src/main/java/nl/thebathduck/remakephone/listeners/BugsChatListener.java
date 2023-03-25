@@ -1,5 +1,7 @@
 package nl.thebathduck.remakephone.listeners;
 
+import be.razerstorm.remakegrinding.common.events.custom.CustomFishEvent;
+import be.razerstorm.remakegrinding.common.events.custom.CustomMineEvent;
 import club.minnced.discord.webhook.send.WebhookEmbed;
 import club.minnced.discord.webhook.send.WebhookEmbedBuilder;
 import lombok.Getter;
@@ -31,6 +33,7 @@ public class BugsChatListener implements Listener {
         if(event.getMessage().toLowerCase().equals("annuleer") || event.getMessage().toLowerCase().equals("annuleren")) {
             player.sendMessage(ChatUtils.color("&cJe hebt je bug report geannuleerd!"));
             event.setCancelled(true);
+            return;
         }
 
         String report = event.getMessage();
@@ -40,11 +43,12 @@ public class BugsChatListener implements Listener {
         });
     }
 
+
     public void report(Player player, String report) {
         String iconUrl = "https://crafatar.com/renders/head/" + player.getUniqueId().toString();
         WebhookEmbedBuilder builder = new WebhookEmbedBuilder();
         builder.setAuthor(new WebhookEmbed.EmbedAuthor(player.getName(), iconUrl, null));
         builder.setDescription(report);
-        //builder.setTimestamp(LocalTime.now());
+        RemakePhone.getInstance().getWebhookClient().send(builder.build());
     }
 }

@@ -1,5 +1,6 @@
 package nl.thebathduck.remakephone.commands;
 
+import com.live.bemmamin.gps.api.GPSAPI;
 import nl.thebathduck.remakephone.RemakePhone;
 import nl.thebathduck.remakephone.managers.NavigationManager;
 import nl.thebathduck.remakephone.utils.ChatUtils;
@@ -28,6 +29,7 @@ public class ReloadCommand implements CommandExecutor {
         NavigationManager.getInstance().reload();
         PlotUtils.getInstance().updatePlotsList();
         sender.sendMessage(ChatUtils.color("&6Reload complete."));
+        RemakePhone.setGPS(new GPSAPI(RemakePhone.getInstance()));
 
         return false;
     }
