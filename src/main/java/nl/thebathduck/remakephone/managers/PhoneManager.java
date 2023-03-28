@@ -44,19 +44,24 @@ public class PhoneManager {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try (Connection connection = SQLManager.getInstance().getHikari().getConnection()) {
-            String SQL = "SELECT `number`, `credit`, `skin` FROM Phones WHERE uuid=?";
-            statement = connection.prepareStatement(SQL);
-            statement.setString(1, uuid.toString());
-            resultSet = statement.executeQuery();
-            if (resultSet.next()) {
-                int number = resultSet.getInt("number");
-                double credit = resultSet.getDouble("credit");
-                String skin = resultSet.getString("skin");
-                Phone phone = new Phone(uuid, credit, number, PhoneSkin.valueOf(skin));
-                return phone;
+            try {
+                String SQL = "SELECT `number`, `credit`, `skin` FROM Phones WHERE uuid=?";
+                statement = connection.prepareStatement(SQL);
+                statement.setString(1, uuid.toString());
+                resultSet = statement.executeQuery();
+                if (resultSet.next()) {
+                    int number = resultSet.getInt("number");
+                    double credit = resultSet.getDouble("credit");
+                    String skin = resultSet.getString("skin");
+                    Phone phone = new Phone(uuid, credit, number, PhoneSkin.valueOf(skin));
+                    return phone;
+                }
+
+            } finally {
+                statement.close();
+                resultSet.close();
+                statement.getConnection().close();
             }
-            statement.close();
-            resultSet.close();
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
@@ -69,14 +74,17 @@ public class PhoneManager {
 
         try (Connection connection = SQLManager.getInstance().getHikari().getConnection()) {
 
-            String SQL = "UPDATE Phones SET credit=?, skin=? WHERE number=?";
-            statement = connection.prepareStatement(SQL);
-            statement.setDouble(1, phone.getCredit());
-            statement.setString(2, phone.getSkin().toString());
-            statement.setInt(3, phone.getNumber());
-            statement.executeUpdate();
-
-            statement.close();
+            try {
+                String SQL = "UPDATE Phones SET credit=?, skin=? WHERE number=?";
+                statement = connection.prepareStatement(SQL);
+                statement.setDouble(1, phone.getCredit());
+                statement.setString(2, phone.getSkin().toString());
+                statement.setInt(3, phone.getNumber());
+                statement.executeUpdate();
+            } finally {
+                statement.close();
+                statement.getConnection().close();
+            }
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -87,17 +95,21 @@ public class PhoneManager {
     public Phone registerPhoneNumber(UUID owner, int number) {
         PreparedStatement statement = null;
         try (Connection connection = SQLManager.getInstance().getHikari().getConnection()) {
-            String SQL = "INSERT INTO Phones (uuid, number, credit, skin) VALUES (?, ?, ?, ?)";
-            statement = connection.prepareStatement(SQL);
-            statement.setString(1, owner.toString());
-            statement.setInt(2, number);
-            statement.setDouble(3, 0.00d);
-            statement.setString(4, PhoneSkin.DEFAULT.toString());
-            statement.executeUpdate();
-            statement.close();
-            Phone phone = new Phone(owner, 0.00d, number, PhoneSkin.DEFAULT);
-            phones.put(owner, phone);
-            return phone;
+            try {
+                String SQL = "INSERT INTO Phones (uuid, number, credit, skin) VALUES (?, ?, ?, ?)";
+                statement = connection.prepareStatement(SQL);
+                statement.setString(1, owner.toString());
+                statement.setInt(2, number);
+                statement.setDouble(3, 0.00d);
+                statement.setString(4, PhoneSkin.DEFAULT.toString());
+                statement.executeUpdate();
+                Phone phone = new Phone(owner, 0.00d, number, PhoneSkin.DEFAULT);
+                phones.put(owner, phone);
+                return phone;
+            } finally {
+                statement.close();
+                statement.getConnection().close();
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -151,14 +163,18 @@ public class PhoneManager {
         boolean isIn = false;
         SQLManager database = SQLManager.getInstance();
         try (Connection connection = database.getHikari().getConnection()) {
-            String SQL = "SELECT uuid FROM Phones WHERE UUID=?";
-            statement = connection.prepareStatement(SQL);
-            statement.setString(1, uuid.toString());
-            set = statement.executeQuery();
-            isIn = set.next();
-            statement.close();
-            set.close();
-            return isIn;
+            try {
+                String SQL = "SELECT uuid FROM Phones WHERE UUID=?";
+                statement = connection.prepareStatement(SQL);
+                statement.setString(1, uuid.toString());
+                set = statement.executeQuery();
+                isIn = set.next();
+                return isIn;
+            } finally {
+                statement.close();
+                set.close();
+                statement.getConnection().close();
+            }
         } catch (SQLException e) {
             e.printStackTrace();
             return isIn;
@@ -171,14 +187,18 @@ public class PhoneManager {
         boolean isIn = false;
         SQLManager database = SQLManager.getInstance();
         try (Connection connection = database.getHikari().getConnection()) {
-            String SQL = "SELECT number FROM Phones WHERE number=?";
-            statement = connection.prepareStatement(SQL);
-            statement.setInt(1, number);
-            set = statement.executeQuery();
-            isIn = set.next();
-            statement.close();
-            set.close();
-            return isIn;
+            try {
+                String SQL = "SELECT number FROM Phones WHERE number=?";
+                statement = connection.prepareStatement(SQL);
+                statement.setInt(1, number);
+                set = statement.executeQuery();
+                isIn = set.next();
+                return isIn;
+            } finally {
+                statement.close();
+                set.close();
+                statement.getConnection().close();
+            }
         } catch (SQLException e) {
             e.printStackTrace();
             return isIn;

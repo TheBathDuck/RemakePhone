@@ -33,11 +33,11 @@ public class SQLManager {
         hikariConfig.addDataSourceProperty("user", user);
         hikariConfig.addDataSourceProperty("password", password);
         hikariConfig.setLeakDetectionThreshold(10000L);
-        hikariConfig.setMaximumPoolSize(10);
+        hikariConfig.setMaximumPoolSize(2);
         hikariConfig.addDataSourceProperty("cachePrepStmts", "true");
         hikariConfig.addDataSourceProperty("prepStmtCacheSize", "250");
-        hikariConfig.addDataSourceProperty("prepStmtCacheSqlLimit", "2084");
-        hikariConfig.setMaxLifetime(480000L);
+        hikariConfig.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
+        hikariConfig.setMaxLifetime(120000L); // Was 480000L, now: 120000L
         hikariConfig.setConnectionTestQuery("SELECT 1");
         hikariConfig.setPoolName("RemakePhone");
         hikari = new HikariDataSource(hikariConfig);
@@ -49,11 +49,9 @@ public class SQLManager {
         try (Connection connection = hikari.getConnection()) {
             Statement phonesTable = connection.createStatement();
             phonesTable.executeUpdate("CREATE TABLE IF NOT EXISTS Phones(uuid VARCHAR(36), number INTEGER, credit DOUBLE, skin VARCHAR(128), PRIMARY KEY(uuid))");
-            phonesTable.close();
 
             Statement contactTable = connection.createStatement();
             contactTable.executeUpdate("CREATE TABLE IF NOT EXISTS Contacts(number INTEGER, contactUuid VARCHAR(36), contactNumber INTEGER, PRIMARY KEY(number))");
-            contactTable.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
