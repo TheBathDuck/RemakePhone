@@ -51,6 +51,7 @@ public class PlayerJoinListener implements Listener {
 
                 if (phoneManager.isInDatabase(player.getUniqueId())) {
                     Phone phone = phoneManager.getFromDatabase(player.getUniqueId());
+                    phoneManager.loadContacts(phone);
                     phoneManager.cachePhone(player.getUniqueId(), phone);
                     phoneManager.loadItem(player, phone);
                     return;

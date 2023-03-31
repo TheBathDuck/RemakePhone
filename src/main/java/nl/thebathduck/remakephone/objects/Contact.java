@@ -9,9 +9,11 @@ public class Contact {
     private @Getter UUID owner;
     private @Getter int number;
 
+
     public Contact(UUID uuid, int number) {
-        this.owner = owner;
+        this.owner = uuid;
         this.number = number;
+
     }
 
 }

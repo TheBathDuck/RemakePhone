@@ -1,4 +1,4 @@
-package nl.thebathduck.remakephone.listeners;
+package nl.thebathduck.remakephone.listeners.chat;
 
 import be.razerstorm.remakegrinding.common.events.custom.CustomFishEvent;
 import be.razerstorm.remakegrinding.common.events.custom.CustomMineEvent;

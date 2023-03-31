@@ -2,6 +2,8 @@ package nl.thebathduck.remakephone.utils;
 
 import org.bukkit.ChatColor;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,9 +25,11 @@ public class ChatUtils {
         return temp;
     }
 
-    public static String eco(double eco) {
-        NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.FRANCE);
-        return formatter.format(eco);
+    public static String eco(double money) {
+        DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.getDefault());
+        symbols.setGroupingSeparator('.');
+        DecimalFormat formatter = new DecimalFormat("#,###", symbols);
+        return formatter.format(money);
     }
 
 }

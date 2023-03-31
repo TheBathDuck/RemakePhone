@@ -1,10 +1,13 @@
 package nl.thebathduck.remakephone.managers;
 
+import com.sk89q.worldedit.world.snapshot.YYMMDDHHIISSParser;
 import lombok.Getter;
 import nl.thebathduck.remakephone.enums.PhoneSkin;
+import nl.thebathduck.remakephone.objects.Contact;
 import nl.thebathduck.remakephone.objects.Phone;
 import nl.thebathduck.remakephone.utils.ItemBuilder;
 import nl.thebathduck.remakephone.utils.sql.SQLManager;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
@@ -12,14 +15,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 
 public class PhoneManager {
 
     private static PhoneManager instance;
     private @Getter HashMap<UUID, Phone> phones;
+    private @Getter HashMap<Integer, Phone> numbers;
 
     public static PhoneManager getInstance() {
         if (instance == null) instance = new PhoneManager();
@@ -28,16 +30,25 @@ public class PhoneManager {
 
     public PhoneManager() {
         phones = new HashMap<>();
+        numbers = new HashMap<>();
     }
 
 
     public Phone cachePhone(UUID uuid, Phone phone) {
         phones.put(uuid, phone);
+        numbers.put(phone.getNumber(), phone);
         return phone;
     }
 
     public Phone getPhone(UUID uuid) {
         return phones.get(uuid);
+    }
+    public Phone getNumber(int number) {
+
+       if(numbers.containsKey(number)) {
+           return numbers.get(number);
+       }
+       return getFromDatabaseNumber(number);
     }
 
     public Phone getFromDatabase(UUID uuid) {
@@ -51,6 +62,36 @@ public class PhoneManager {
                 resultSet = statement.executeQuery();
                 if (resultSet.next()) {
                     int number = resultSet.getInt("number");
+                    double credit = resultSet.getDouble("credit");
+                    String skin = resultSet.getString("skin");
+                    Phone phone = new Phone(uuid, credit, number, PhoneSkin.valueOf(skin));
+                    return phone;
+                }
+
+            } finally {
+                statement.close();
+                resultSet.close();
+                statement.getConnection().close();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return null;
+    }
+
+    public Phone getFromDatabaseNumber(int number) {
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        try (Connection connection = SQLManager.getInstance().getHikari().getConnection()) {
+            try {
+                String SQL = "SELECT * FROM Phones WHERE number=?";
+                statement = connection.prepareStatement(SQL);
+                statement.setInt(1, number);
+                resultSet = statement.executeQuery();
+                Bukkit.broadcastMessage(SQL.replaceAll("=?", number+""));
+                if (resultSet.next()) {
+                    UUID uuid = UUID.fromString(resultSet.getString("uuid"));
                     double credit = resultSet.getDouble("credit");
                     String skin = resultSet.getString("skin");
                     Phone phone = new Phone(uuid, credit, number, PhoneSkin.valueOf(skin));
@@ -116,46 +157,52 @@ public class PhoneManager {
         return null;
     }
 
-//    public List<Contact> getContacts(Phone phone) {
-//        List<Contact> contacts = new ArrayList<>();
-//        PreparedStatement statement = null;
-//        ResultSet set = null;
-//        SQLManager database = SQLManager.getInstance();
-//        try (Connection connection = database.getHikari().getConnection()) {
-//            String SQL = "SELECT contactnumber FROM Contacts WHERE number=?";
-//            statement = connection.prepareStatement(SQL);
-//            statement.setInt(1, phone.getNumber());
-//            set = statement.executeQuery();
-//            while(set.next()) {
-//                phone.addContact(new Contact(UUID.fromString(set.getString("contactUuid")), set.getInt("contactNumber")));
-//                Bukkit.broadcastMessage("# " + set.getString("contactUuid") + ": " + set.getInt("contactNumber"));
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//            return contacts;
-//        }
-//        return contacts;
-//    }
-//
-//    public void addContact(Phone owner, UUID uuid, int number) {
-//        if(numberExists(number)) {
-//            PreparedStatement statement = null;
-//            SQLManager database = SQLManager.getInstance();
-//            try (Connection connection = database.getHikari().getConnection()) {
-//                String SQL = "INSERT INTO Contacts(number, contactUuid, contactNumber) VALUES(?, ?, ?)";
-//                statement = connection.prepareStatement(SQL);
-//                statement.setInt(1, owner.getNumber());
-//                statement.setString(2, uuid.toString());
-//                statement.setInt(3, number);
-//                statement.executeUpdate();
-//                Bukkit.getLogger().info("Saved new contact for 06-" + owner.getNumber() + " with number: 06-" + number);
-//            } catch (SQLException e) {
-//                e.printStackTrace();
-//            }
-//        } else {
-//            Bukkit.getLogger().severe("[PhoneContacts] Couldn't find " + number + " in the database");
-//        }
-//    }
+    public void loadContacts(Phone phone) {
+        PreparedStatement statement = null;
+        ResultSet set = null;
+        SQLManager database = SQLManager.getInstance();
+        try (Connection connection = database.getHikari().getConnection()) {
+            try {
+                String SQL = "SELECT * FROM Contacts WHERE number=?";
+                statement = connection.prepareStatement(SQL);
+                statement.setInt(1, phone.getNumber());
+                set = statement.executeQuery();
+                while(set.next()) {
+                    UUID contactUuid = UUID.fromString(set.getString("contactUuid"));
+                    int number = set.getInt("contactNumber");
+                    phone.addContact(new Contact(contactUuid, number));
+                    Bukkit.getLogger().info("[ContactLoader] # (ID: "+ set.getInt("id") +") " + set.getString("contactUuid") + ": " + set.getInt("contactNumber"));
+                }
+            } finally {
+                set.close();
+                statement.close();
+                statement.getConnection().close();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void addContact(Phone owner, UUID uuid, int number) {
+        if(numberExists(number)) {
+            PreparedStatement statement = null;
+            SQLManager database = SQLManager.getInstance();
+            try (Connection connection = database.getHikari().getConnection()) {
+                String SQL = "INSERT INTO Contacts(number, contactUuid, contactNumber) VALUES(?, ?, ?)";
+                statement = connection.prepareStatement(SQL);
+                statement.setInt(1, owner.getNumber());
+                statement.setString(2, uuid.toString());
+                statement.setInt(3, number);
+                statement.executeUpdate();
+                Bukkit.getLogger().info("Saved new contact for 06-" + owner.getNumber() + " with number: 06-" + number);
+                owner.addContact(new Contact(uuid, number));
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else {
+            Bukkit.getLogger().severe("[PhoneContacts] Couldn't find " + number + " in the database");
+        }
+    }
 
     public boolean isInDatabase(UUID uuid) {
         PreparedStatement statement = null;

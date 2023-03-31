@@ -49,9 +49,16 @@ public class SQLManager {
         try (Connection connection = hikari.getConnection()) {
             Statement phonesTable = connection.createStatement();
             phonesTable.executeUpdate("CREATE TABLE IF NOT EXISTS Phones(uuid VARCHAR(36), number INTEGER, credit DOUBLE, skin VARCHAR(128), PRIMARY KEY(uuid))");
+            phonesTable.close();
 
             Statement contactTable = connection.createStatement();
-            contactTable.executeUpdate("CREATE TABLE IF NOT EXISTS Contacts(number INTEGER, contactUuid VARCHAR(36), contactNumber INTEGER, PRIMARY KEY(number))");
+            contactTable.executeUpdate("CREATE TABLE IF NOT EXISTS Contacts(id INT AUTO_INCREMENT, number INTEGER, contactUuid VARCHAR(36), contactNumber INTEGER, PRIMARY KEY (id))");
+            contactTable.close();
+
+            Statement messageTable = connection.createStatement();
+            messageTable.executeUpdate("CREATE TABLE IF NOT EXISTS Messages(uuid VARCHAR(36), number INTEGER, sender INTEGER, message TEXT, hasread TINYINT, time BIGINT, PRIMARY KEY (uuid))");
+            messageTable.close();
+
         } catch (SQLException e) {
             e.printStackTrace();
         }

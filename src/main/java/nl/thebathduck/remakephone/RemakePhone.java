@@ -8,8 +8,12 @@ import net.milkbowl.vault.economy.Economy;
 import nl.thebathduck.remakephone.commands.*;
 import nl.thebathduck.remakephone.enums.ServerType;
 import nl.thebathduck.remakephone.listeners.*;
+import nl.thebathduck.remakephone.listeners.chat.AddContactListener;
+import nl.thebathduck.remakephone.listeners.chat.BugsChatListener;
+import nl.thebathduck.remakephone.listeners.chat.MessagesChatListener;
 import nl.thebathduck.remakephone.managers.NavigationManager;
 import nl.thebathduck.remakephone.managers.PhoneManager;
+import nl.thebathduck.remakephone.objects.Contact;
 import nl.thebathduck.remakephone.objects.Phone;
 import nl.thebathduck.remakephone.utils.GUIHolder;
 import nl.thebathduck.remakephone.utils.PlotUtils;
@@ -58,7 +62,6 @@ public final class RemakePhone extends JavaPlugin {
 
         getCommand("phonereload").setExecutor(new ReloadCommand());
         getCommand("remakephone").setExecutor(new PhoneCommand());
-
         if(serverType.equals(ServerType.MINETOPIA)) {
             getCommand("huizenmarkt").setExecutor(new PlotCommand());
             getCommand("plotinfo").setExecutor(new PlotinfoCommandOverride());
@@ -110,7 +113,11 @@ public final class RemakePhone extends JavaPlugin {
         manager.registerEvents(new PlayerJoinListener(), this);
         manager.registerEvents(new PlayerQuitListener(), this);
         manager.registerEvents(new RemakePhoneListener(), this);
+
+        // Chat Listeners
         manager.registerEvents(new BugsChatListener(), this);
+        manager.registerEvents(new AddContactListener(), this);
+        manager.registerEvents(new MessagesChatListener(), this);
     }
 
 

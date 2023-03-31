@@ -42,7 +42,9 @@ public class PlotinfoCommandOverride implements CommandExecutor {
         if(region.getFlag(plotUtils.RMT_PLOTS_SELLING) != null) {
             player.sendMessage(ChatUtils.color("&6Te koop, prijs: &c€" + ChatUtils.eco(region.getFlag(plotUtils.RMT_PLOTS_SELLPRICE))));
         } else {
-            player.sendMessage(ChatUtils.color("&6Te koop, prijs: &c€" + ChatUtils.eco(region.getFlag(plotUtils.RMT_PLOTS_PRICE))));
+            if(region.getFlag(plotUtils.RMT_PLOTS_PRICE) != null) {
+                player.sendMessage(ChatUtils.color("&6Te koop, prijs: &c€" + ChatUtils.eco(region.getFlag(plotUtils.RMT_PLOTS_PRICE))));
+            }
         }
 
         player.sendMessage(ChatUtils.color("&6----------------"));

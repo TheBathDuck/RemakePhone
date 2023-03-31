@@ -3,11 +3,13 @@ package nl.thebathduck.remakephone.utils;
 import io.github.bananapuncher714.nbteditor.NBTEditor;
 import org.bukkit.Color;
 import org.bukkit.Material;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
+import org.bukkit.inventory.meta.SkullMeta;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -315,6 +317,13 @@ public class ItemBuilder {
 
     public ItemBuilder setAmount(int amount) {
         is.setAmount(amount);
+        return this;
+    }
+
+    public ItemBuilder setSkull(OfflinePlayer player) {
+        SkullMeta meta = (SkullMeta) is.getItemMeta();
+        meta.setOwner(player.getName());
+        is.setItemMeta(meta);
         return this;
     }
 

@@ -4,9 +4,8 @@ import io.github.bananapuncher714.nbteditor.NBTEditor;
 import nl.thebathduck.remakephone.RemakePhone;
 import nl.thebathduck.remakephone.enums.PhoneIcon;
 import nl.thebathduck.remakephone.enums.ServerType;
-import nl.thebathduck.remakephone.listeners.BugsChatListener;
+import nl.thebathduck.remakephone.listeners.chat.BugsChatListener;
 import nl.thebathduck.remakephone.managers.PhoneManager;
-import nl.thebathduck.remakephone.menu.grinding.GrindingPickaxeSkinsMenu;
 import nl.thebathduck.remakephone.menu.grinding.GrindingSkinSelectionMenu;
 import nl.thebathduck.remakephone.menu.grinding.GrindingStatsMenu;
 import nl.thebathduck.remakephone.menu.maps.MapsPhoneMenu;
@@ -87,17 +86,15 @@ public class MainPhoneMenu extends GUIHolder {
 
         inventory.setItem(11, new ItemBuilder(PhoneIcon.CONTACT.getMaterial())
                 .setNBT(PhoneIcon.CONTACT.getKey(), PhoneIcon.CONTACT.getValue())
+                .setNBT("menu", "contacten")
                 .setColoredName("&bContacten")
-                .addLoreLine("&cBinnenkort verkrijgbaar op")
-                .addLoreLine("&cde appstore!")
                 .build()
         );
 
         inventory.setItem(12, new ItemBuilder(PhoneIcon.WHATSAPP.getMaterial())
                 .setNBT(PhoneIcon.WHATSAPP.getKey(), PhoneIcon.WHATSAPP.getValue())
-                .setColoredName("&aBerichten")
-                .addLoreLine("&cBinnenkort verkrijgbaar op")
-                .addLoreLine("&cde appstore!")
+                .setColoredName("&aBericht Versturen")
+                .setNBT("menu", "berichten")
                 .build()
         );
 
@@ -109,7 +106,7 @@ public class MainPhoneMenu extends GUIHolder {
         );
 
 
-        if(RemakePhone.getInstance().getServerType().equals(ServerType.GRINDING)) {
+        if (RemakePhone.getInstance().getServerType().equals(ServerType.GRINDING)) {
             inventory.setItem(14, new ItemBuilder(PhoneIcon.GRINDING_SKINS.getMaterial())
                     .setNBT(PhoneIcon.GRINDING_SKINS.getKey(), PhoneIcon.GRINDING_SKINS.getValue())
                     .setColoredName("&cGrinding Skins")
@@ -150,9 +147,8 @@ public class MainPhoneMenu extends GUIHolder {
 
         inventory.setItem(21, new ItemBuilder(PhoneIcon.MAIL.getMaterial())
                 .setNBT(PhoneIcon.MAIL.getKey(), PhoneIcon.MAIL.getValue())
-                .setColoredName("&bGelezen Berichten")
-                .addLoreLine("&cBinnenkort verkrijgbaar op")
-                .addLoreLine("&cde appstore!")
+                .setNBT("menu", "messagehistory")
+                .setColoredName("&bOntvangen Berichten")
                 .build()
         );
 
@@ -198,11 +194,22 @@ public class MainPhoneMenu extends GUIHolder {
             case "grindinginfo":
                 new GrindingStatsMenu(player);
                 break;
+            case "berichten":
+                new MessagesMenu(player);
+                break;
+            case "contacten":
+                new ContactsMenu(player);
+                break;
+            case "messagehistory":
+                new MessagesListMenu(player);
+                break;
             default:
                 return;
         }
 
     }
+
+
 
 
 }

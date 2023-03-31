@@ -26,10 +26,27 @@ public class MarktMenu extends GUIHolder {
             inventory.setItem(i, filler);
         }
 
+
         for (int i = 0; i < Math.min(regions.size() - page * pageSize, pageSize); i++) {
             int index = i + page * pageSize;
             ProtectedRegion region = regions.get(index);
             inventory.setItem(i, getHouseItem(region, region.getId(), region.getFlag(PlotUtils.getInstance().RMT_PLOTS_PRICE)));
+        }
+
+        if (page > 0) {
+            this.inventory.setItem(47, new ItemBuilder(Material.SPECTRAL_ARROW)
+                    .setColoredName("&cVorige Pagina")
+                    .setNBT("goto", (page - 1))
+                    .build()
+            );
+        }
+
+        if(regions.size() - page * pageSize > pageSize) {
+            this.inventory.setItem(51, new ItemBuilder(Material.SPECTRAL_ARROW)
+                    .setColoredName("&aVolgende Pagina")
+                    .setNBT("goto", (page + 1))
+                    .build()
+            );
         }
 
         open(player);
@@ -42,6 +59,13 @@ public class MarktMenu extends GUIHolder {
         event.setCancelled(true);
         if (event.getCurrentItem().getType().equals(Material.STAINED_GLASS_PANE)) return;
         Player player = (Player) event.getWhoClicked();
+
+        if (event.getCurrentItem().getType().equals(Material.SPECTRAL_ARROW)) {
+            int pageNumber = NBTEditor.getInt(event.getCurrentItem(), "goto");
+            player.sendMessage("Entering: " + pageNumber);
+            new MarktMenu(player, pageNumber);
+            return;
+        }
 
         if (!NBTEditor.contains(event.getCurrentItem(), "huizenmarkt-region")) {
             player.sendMessage(ChatUtils.color("&cEr is geen gepaste GPS locatie gevonden voor dit plot."));

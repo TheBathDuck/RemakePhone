@@ -7,6 +7,7 @@ import org.bukkit.inventory.ItemStack;
 
 public enum PhoneIcon {
     CONTACT(Material.IRON_INGOT, "mtwcustom", "phone_icon1"),
+    CONTACT_ADD(Material.IRON_INGOT, "mtwcustom", "phone_icon17"),
     WHATSAPP(Material.IRON_INGOT, "mtwcustom", "phone_icon2"),
     MAIL(Material.IRON_INGOT, "mtwcustom", "phone_icon3"),
     BELTEGOED(Material.IRON_INGOT, "mtwcustom", "phone_icon4"),
