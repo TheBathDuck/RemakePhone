@@ -31,23 +31,21 @@ public class PlotinfoCommandOverride implements CommandExecutor {
             return false;
         }
 
-        player.sendMessage(ChatUtils.color("&6----------------"));
+        player.sendMessage(ChatUtils.color("&6&m------------------------"));
         player.sendMessage(ChatUtils.color("&6Plot info voor: &c" + region.getId()));
         player.sendMessage(ChatUtils.color("&6Eigenaar: &c" + getOwners(region)));
         player.sendMessage(ChatUtils.color("&6Leden: &c" + getMembers(region)));
 
-        if (region.getFlag(plotUtils.RMT_PLOTS_PRICE) != null) {
-            player.sendMessage(ChatUtils.color("&6Standaard plot prijs: &c€" + ChatUtils.eco(region.getFlag(plotUtils.RMT_PLOTS_PRICE))));
-        }
-        if(region.getFlag(plotUtils.RMT_PLOTS_SELLING) != null) {
-            player.sendMessage(ChatUtils.color("&6Te koop, prijs: &c€" + ChatUtils.eco(region.getFlag(plotUtils.RMT_PLOTS_SELLPRICE))));
-        } else {
-            if(region.getFlag(plotUtils.RMT_PLOTS_PRICE) != null) {
-                player.sendMessage(ChatUtils.color("&6Te koop, prijs: &c€" + ChatUtils.eco(region.getFlag(plotUtils.RMT_PLOTS_PRICE))));
-            }
+
+        if(region.getFlag(plotUtils.RMT_PLOTS_PRICE) != null) {
+            player.sendMessage(ChatUtils.color("&6Plot prijs: &c€" + ChatUtils.eco(region.getFlag(plotUtils.RMT_PLOTS_PRICE))));
         }
 
-        player.sendMessage(ChatUtils.color("&6----------------"));
+        if(region.getFlag(plotUtils.RMT_PLOTS_SELLING) != null) {
+            player.sendMessage(ChatUtils.color("&6Te koop, prijs: &c€" + ChatUtils.eco(region.getFlag(plotUtils.RMT_PLOTS_SELLPRICE))));
+        }
+
+        player.sendMessage(ChatUtils.color("&6&m------------------------"));
 
         return false;
     }

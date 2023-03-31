@@ -30,7 +30,7 @@ public class PlotCommand implements CommandExecutor {
         double balance = RemakePhone.getEconomy().getBalance(player);
 
         if (args.length <= 0) {
-            sendHelp(command.getName(), player);
+            sendHelp(s, player);
             return false;
         }
 

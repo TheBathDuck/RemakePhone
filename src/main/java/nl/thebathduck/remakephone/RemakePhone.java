@@ -60,16 +60,6 @@ public final class RemakePhone extends JavaPlugin {
         );
         SQLManager.getInstance().createTables();
 
-        getCommand("phonereload").setExecutor(new ReloadCommand());
-        getCommand("remakephone").setExecutor(new PhoneCommand());
-        if(serverType.equals(ServerType.MINETOPIA)) {
-            getCommand("huizenmarkt").setExecutor(new PlotCommand());
-            getCommand("plotinfo").setExecutor(new PlotinfoCommandOverride());
-        } else {
-            getCommand("plotinfo").setExecutor(new NotValidOnThisServerCommand());
-            getCommand("huizenmarkt").setExecutor(new NotValidOnThisServerCommand());
-        }
-
         RegisteredServiceProvider<Economy> economyService = getServer().getServicesManager().getRegistration(Economy.class);
         if (economyService == null) {
             Bukkit.getPluginManager().disablePlugin(this);
@@ -89,6 +79,17 @@ public final class RemakePhone extends JavaPlugin {
         Bukkit.getScheduler().runTaskTimerAsynchronously(this, () -> {
             PlotUtils.getInstance().updatePlotsList();
         }, 0L, 20*60);
+
+        getCommand("phonereload").setExecutor(new ReloadCommand());
+        getCommand("remakephone").setExecutor(new PhoneCommand());
+
+        if(serverType.equals(ServerType.GRINDING)) {
+            getCommand("plotinfo").setExecutor(new NotValidOnThisServerCommand());
+            getCommand("huizenmarkt").setExecutor(new NotValidOnThisServerCommand());
+        } else {
+            getCommand("huizenmarkt").setExecutor(new PlotCommand());
+            getCommand("plotinfo").setExecutor(new PlotinfoCommandOverride());
+        }
     }
 
     @Override

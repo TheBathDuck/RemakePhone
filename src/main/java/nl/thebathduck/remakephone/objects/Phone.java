@@ -17,7 +17,7 @@ public class Phone {
     @Setter PhoneSkin skin;
     private @Getter
     @Setter double credit;
-    private @Getter List<Contact> contacts;
+    private @Getter HashMap<Integer, Contact> contacts;
     private @Getter HashMap<UUID, PhoneMessage> messages;
 
     public Phone(UUID owner, double credit, int number, PhoneSkin skin) {
@@ -25,7 +25,7 @@ public class Phone {
         this.owner = owner;
         this.credit = credit;
         this.number = number;
-        this.contacts = new ArrayList<>();
+        this.contacts = new HashMap<>();
         this.messages = new HashMap<>();
     }
 
@@ -34,7 +34,13 @@ public class Phone {
     }
 
     public void addContact(Contact contact) {
-        contacts.add(contact);
+        contacts.put(contact.getNumber(), contact);
+    }
+    public Contact getContact(int number) {
+        return contacts.get(number);
+    }
+    public void removeContact(int number) {
+        this.contacts.remove(number);
     }
 
     public void addMessage(PhoneMessage message) {

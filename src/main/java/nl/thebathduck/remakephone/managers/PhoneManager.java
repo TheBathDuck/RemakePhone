@@ -2,9 +2,11 @@ package nl.thebathduck.remakephone.managers;
 
 import com.sk89q.worldedit.world.snapshot.YYMMDDHHIISSParser;
 import lombok.Getter;
+import nl.thebathduck.remakephone.RemakePhone;
 import nl.thebathduck.remakephone.enums.PhoneSkin;
 import nl.thebathduck.remakephone.objects.Contact;
 import nl.thebathduck.remakephone.objects.Phone;
+import nl.thebathduck.remakephone.objects.PhoneMessage;
 import nl.thebathduck.remakephone.utils.ItemBuilder;
 import nl.thebathduck.remakephone.utils.sql.SQLManager;
 import org.bukkit.Bukkit;
@@ -80,6 +82,7 @@ public class PhoneManager {
         return null;
     }
 
+
     public Phone getFromDatabaseNumber(int number) {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
@@ -89,7 +92,6 @@ public class PhoneManager {
                 statement = connection.prepareStatement(SQL);
                 statement.setInt(1, number);
                 resultSet = statement.executeQuery();
-                Bukkit.broadcastMessage(SQL.replaceAll("=?", number+""));
                 if (resultSet.next()) {
                     UUID uuid = UUID.fromString(resultSet.getString("uuid"));
                     double credit = resultSet.getDouble("credit");
@@ -188,20 +190,46 @@ public class PhoneManager {
             PreparedStatement statement = null;
             SQLManager database = SQLManager.getInstance();
             try (Connection connection = database.getHikari().getConnection()) {
-                String SQL = "INSERT INTO Contacts(number, contactUuid, contactNumber) VALUES(?, ?, ?)";
-                statement = connection.prepareStatement(SQL);
-                statement.setInt(1, owner.getNumber());
-                statement.setString(2, uuid.toString());
-                statement.setInt(3, number);
-                statement.executeUpdate();
-                Bukkit.getLogger().info("Saved new contact for 06-" + owner.getNumber() + " with number: 06-" + number);
-                owner.addContact(new Contact(uuid, number));
+                try {
+                    String SQL = "INSERT INTO Contacts(number, contactUuid, contactNumber) VALUES(?, ?, ?)";
+                    statement = connection.prepareStatement(SQL);
+                    statement.setInt(1, owner.getNumber());
+                    statement.setString(2, uuid.toString());
+                    statement.setInt(3, number);
+                    statement.executeUpdate();
+                    Bukkit.getLogger().info("Saved new contact for 06-" + owner.getNumber() + " with number: 06-" + number);
+                    owner.addContact(new Contact(uuid, number));
+                } finally {
+                    statement.close();
+                    statement.getConnection().close();
+                }
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         } else {
             Bukkit.getLogger().severe("[PhoneContacts] Couldn't find " + number + " in the database");
         }
+    }
+
+    public void removeContact(Phone phone, int contactNumber) {
+        phone.removeContact(contactNumber);
+        Bukkit.getScheduler().runTaskAsynchronously(RemakePhone.getInstance(), () -> {
+            try (Connection connection = SQLManager.getInstance().getHikari().getConnection()) {
+                PreparedStatement statement = null;
+                try {
+                    String SQL = "DELETE FROM Contacts WHERE number=? AND contactNumber=?";
+                    statement = connection.prepareStatement(SQL);
+                    statement.setInt(1, phone.getNumber());
+                    statement.setInt(2, contactNumber);
+                    statement.executeUpdate();
+                } finally {
+                    statement.close();
+                    statement.getConnection().close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     public boolean isInDatabase(UUID uuid) {

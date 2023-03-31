@@ -50,7 +50,7 @@ public class MessagesChatListener implements Listener {
             return;
         }
         player.sendMessage(ChatUtils.color("&3Je bericht is verstuurd!"));
-        MessageManager.getInstance().addMessage(uuid, phone.getNumber(), number, event.getMessage());
+        MessageManager.getInstance().addMessage(uuid, number, phone.getNumber(), event.getMessage());
     }
 
 }

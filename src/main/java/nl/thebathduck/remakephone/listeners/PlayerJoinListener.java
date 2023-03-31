@@ -2,6 +2,7 @@ package nl.thebathduck.remakephone.listeners;
 
 import nl.thebathduck.remakephone.RemakePhone;
 import nl.thebathduck.remakephone.enums.ServerType;
+import nl.thebathduck.remakephone.managers.MessageManager;
 import nl.thebathduck.remakephone.managers.PhoneManager;
 import nl.thebathduck.remakephone.objects.Phone;
 import nl.thebathduck.remakephone.utils.ItemBuilder;
@@ -54,6 +55,8 @@ public class PlayerJoinListener implements Listener {
                     phoneManager.loadContacts(phone);
                     phoneManager.cachePhone(player.getUniqueId(), phone);
                     phoneManager.loadItem(player, phone);
+
+                    MessageManager.getInstance().loadMessages(phone);
                     return;
                 }
                 int number = phoneManager.getRandomNumber();

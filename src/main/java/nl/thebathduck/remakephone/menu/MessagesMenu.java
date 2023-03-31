@@ -1,6 +1,7 @@
 package nl.thebathduck.remakephone.menu;
 
 import io.github.bananapuncher714.nbteditor.NBTEditor;
+import nl.thebathduck.remakephone.RemakePhone;
 import nl.thebathduck.remakephone.listeners.chat.MessagesChatListener;
 import nl.thebathduck.remakephone.managers.PhoneManager;
 import nl.thebathduck.remakephone.objects.Phone;
@@ -21,19 +22,25 @@ public class MessagesMenu extends GUIHolder {
         this.inventory = Bukkit.createInventory(this, 6 * 9, "Berichten - 06-" + phone.getNumber());
         open(player);
 
-        phone.getContacts().forEach(contact -> {
-            OfflinePlayer ofp = Bukkit.getOfflinePlayer(contact.getOwner());
-            ItemBuilder contactBuilder = new ItemBuilder(Material.PAPER);
-            contactBuilder.setColoredName("&b" + ofp.getName());
-            contactBuilder.setNBT("targetNumber", contact.getNumber());
-            contactBuilder.setNBT("targetUuid", contact.getOwner().toString());
-            contactBuilder.addLoreLine("&306-" + contact.getNumber());
-            if (ofp != null || ofp.hasPlayedBefore() || ofp.isOnline()) {
-                contactBuilder.setType(Material.SKULL_ITEM);
-                contactBuilder.setDurability((byte) 3);
-                contactBuilder.setSkull(ofp);
-            }
-            inventory.addItem(contactBuilder.build());
+
+        inventory.setItem(22, new ItemBuilder(Material.STAINED_GLASS_PANE).setDurability((short) 14).setColoredName("&cContacten inladen..").build());
+
+        Bukkit.getScheduler().runTaskAsynchronously(RemakePhone.getInstance(), () -> {
+            inventory.setItem(22, null);
+            phone.getContacts().values().forEach(contact -> {
+                OfflinePlayer ofp = Bukkit.getOfflinePlayer(contact.getOwner());
+                ItemBuilder contactBuilder = new ItemBuilder(Material.PAPER);
+                contactBuilder.setColoredName("&b" + ofp.getName());
+                contactBuilder.setNBT("targetNumber", contact.getNumber());
+                contactBuilder.setNBT("targetUuid", contact.getOwner().toString());
+                contactBuilder.addLoreLine("&306-" + contact.getNumber());
+                if (ofp != null || ofp.hasPlayedBefore() || ofp.isOnline()) {
+                    contactBuilder.setType(Material.SKULL_ITEM);
+                    contactBuilder.setDurability((byte) 3);
+                    contactBuilder.setSkull(ofp);
+                }
+                inventory.addItem(contactBuilder.build());
+            });
         });
 
 
