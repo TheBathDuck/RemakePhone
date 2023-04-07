@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.ArrayList;
+import java.util.*;
 
 public class MarktMenu extends GUIHolder {
 
@@ -18,7 +18,14 @@ public class MarktMenu extends GUIHolder {
 
         this.inventory = Bukkit.createInventory(this, 6 * 9, ChatUtils.color("&cHuizenmarkt &7- &6Pagina ") + (page + 1));
         double balance = RemakePhone.getEconomy().getBalance(player);
-        ArrayList<ProtectedRegion> regions = new ArrayList<>(PlotUtils.getInstance().getPlots(balance));
+
+//        Comparator<ProtectedRegion> comparator = Comparator.comparing(region -> region.getFlag(PlotUtils.getInstance().RMT_PLOTS_PRICE));
+//        Set<ProtectedRegion> regions = new TreeSet<>(comparator);
+//        regions.addAll(PlotUtils.getInstance().getPlots(balance));
+        List<ProtectedRegion> regions = PlotUtils.getInstance().getPlots(balance);
+
+
+
         int pageSize = 4 * 9;
 
         for (int i = 36; i <= 36 + 8; i++) {
@@ -26,12 +33,20 @@ public class MarktMenu extends GUIHolder {
             inventory.setItem(i, filler);
         }
 
+//        Comparator<ProtectedRegion> comparator = Comparator.comparing(region -> region.getFlag(PlotUtils.getInstance().RMT_PLOTS_PRICE));
+//        Set<ProtectedRegion> pageRegions = new TreeSet<>(comparator);
 
         for (int i = 0; i < Math.min(regions.size() - page * pageSize, pageSize); i++) {
             int index = i + page * pageSize;
             ProtectedRegion region = regions.get(index);
             inventory.setItem(i, getHouseItem(region, region.getId(), region.getFlag(PlotUtils.getInstance().RMT_PLOTS_PRICE)));
+            //pageRegions.add(region);
         }
+
+//        pageRegions.forEach(pagedRegion -> {
+//            inventory.addItem(getHouseItem(pagedRegion, pagedRegion.getId(), pagedRegion.getFlag(PlotUtils.getInstance().RMT_PLOTS_PRICE)));
+//        });
+
 
         if (page > 0) {
             this.inventory.setItem(47, new ItemBuilder(Material.SPECTRAL_ARROW)
@@ -62,7 +77,6 @@ public class MarktMenu extends GUIHolder {
 
         if (event.getCurrentItem().getType().equals(Material.SPECTRAL_ARROW)) {
             int pageNumber = NBTEditor.getInt(event.getCurrentItem(), "goto");
-            player.sendMessage("Entering: " + pageNumber);
             new MarktMenu(player, pageNumber);
             return;
         }

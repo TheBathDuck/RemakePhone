@@ -79,7 +79,9 @@ public class RemakePhoneListener implements Listener {
     public void onGamemodeSwitch(PlayerGameModeChangeEvent event) {
         Player player = event.getPlayer();
         if(player == null) return;
-        setPhoneItem(event.getPlayer(), PhoneManager.getInstance().getPhone(player.getUniqueId()));
+        Phone phone = PhoneManager.getInstance().getPhone(player.getUniqueId());
+        if(phone == null) return;
+        setPhoneItem(event.getPlayer(), phone);
     }
 
     public void checkForDupe(Player player) {

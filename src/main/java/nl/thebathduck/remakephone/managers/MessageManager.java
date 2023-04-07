@@ -71,7 +71,7 @@ public class MessageManager {
                         long time = resultSet.getLong("time");
                         PhoneMessage phoneMessage = new PhoneMessage(messageUuid, sender, message, hasread, time);
                         phone.addMessage(phoneMessage);
-                        Bukkit.getLogger().info("[MessageLoader] Time: " + phoneMessage.getDate() + " Loaded: " + messageUuid);
+                        //Bukkit.getLogger().info("[MessageLoader] Time: " + phoneMessage.getDate() + " Loaded: " + messageUuid);
                     }
 
                 } finally {
@@ -94,6 +94,26 @@ public class MessageManager {
                     statement = connection.prepareStatement(SQL);
                     statement.setBoolean(1, read);
                     statement.setString(2, messageUuid.toString());
+                    statement.executeUpdate();
+                } finally {
+                    statement.close();
+                    statement.getConnection().close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    public void deleteMessage(Phone phone, UUID messageUuid) {
+        phone.removeMessage(messageUuid);
+        Bukkit.getScheduler().runTaskAsynchronously(RemakePhone.getInstance(), () -> {
+            try (Connection connection = SQLManager.getInstance().getHikari().getConnection()) {
+                PreparedStatement statement = null;
+                try {
+                    String SQL = "DELETE FROM Messages WHERE uuid=?";
+                    statement = connection.prepareStatement(SQL);
+                    statement.setString(1, messageUuid.toString());
                     statement.executeUpdate();
                 } finally {
                     statement.close();

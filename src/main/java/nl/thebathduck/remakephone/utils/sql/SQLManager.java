@@ -33,7 +33,7 @@ public class SQLManager {
         hikariConfig.addDataSourceProperty("user", user);
         hikariConfig.addDataSourceProperty("password", password);
         hikariConfig.setLeakDetectionThreshold(10000L);
-        hikariConfig.setMaximumPoolSize(2);
+        hikariConfig.setMaximumPoolSize(8);
         hikariConfig.addDataSourceProperty("cachePrepStmts", "true");
         hikariConfig.addDataSourceProperty("prepStmtCacheSize", "250");
         hikariConfig.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");

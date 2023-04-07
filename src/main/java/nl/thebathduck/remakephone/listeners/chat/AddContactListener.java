@@ -43,9 +43,7 @@ public class AddContactListener implements Listener {
             player.sendMessage(ChatUtils.color("&cJe hebt geen geldig telefoon nummer opgegeven."));
             return;
         }
-        int number = Integer.valueOf(arg1);
-
-        player.sendMessage("Number: " + number);
+        int number = Integer.parseInt(arg1);
 
         PhoneManager phoneManager = PhoneManager.getInstance();
         Bukkit.getScheduler().runTaskAsynchronously(RemakePhone.getInstance(), () -> {

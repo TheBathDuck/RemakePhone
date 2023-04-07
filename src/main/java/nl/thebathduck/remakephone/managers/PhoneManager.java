@@ -173,7 +173,7 @@ public class PhoneManager {
                     UUID contactUuid = UUID.fromString(set.getString("contactUuid"));
                     int number = set.getInt("contactNumber");
                     phone.addContact(new Contact(contactUuid, number));
-                    Bukkit.getLogger().info("[ContactLoader] # (ID: "+ set.getInt("id") +") " + set.getString("contactUuid") + ": " + set.getInt("contactNumber"));
+                    //Bukkit.getLogger().info("[ContactLoader] # (ID: "+ set.getInt("id") +") " + set.getString("contactUuid") + ": " + set.getInt("contactNumber"));
                 }
             } finally {
                 set.close();
