@@ -9,10 +9,10 @@ import java.util.UUID;
 
 public class PhoneMessage {
 
-    private @Getter UUID uuid;
-    private @Getter int sender;
-    private @Getter String message;
-    private @Getter long time;
+    private @Getter @Setter UUID uuid;
+    private @Getter @Setter int sender;
+    private @Getter @Setter String message;
+    private @Getter @Setter long time;
     private boolean read;
 
     public PhoneMessage(UUID messageUuid, int sender, String message, boolean read, long time) {

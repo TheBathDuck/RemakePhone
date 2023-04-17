@@ -11,7 +11,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
-
+/* Commented lines are a start of plot sorting by price, didn't got it working yet as it's not that easy :( */
 public class MarktMenu extends GUIHolder {
 
     public MarktMenu(Player player, int page) {
@@ -22,6 +22,7 @@ public class MarktMenu extends GUIHolder {
 //        Comparator<ProtectedRegion> comparator = Comparator.comparing(region -> region.getFlag(PlotUtils.getInstance().RMT_PLOTS_PRICE));
 //        Set<ProtectedRegion> regions = new TreeSet<>(comparator);
 //        regions.addAll(PlotUtils.getInstance().getPlots(balance));
+
         List<ProtectedRegion> regions = PlotUtils.getInstance().getPlots(balance);
 
 

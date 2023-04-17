@@ -201,7 +201,7 @@ public class MainPhoneMenu extends GUIHolder {
                 new ContactsMenu(player);
                 break;
             case "messagehistory":
-                new MessagesListMenu(player);
+                new MessagesListMenu(player, 0);
                 break;
             default:
                 return;

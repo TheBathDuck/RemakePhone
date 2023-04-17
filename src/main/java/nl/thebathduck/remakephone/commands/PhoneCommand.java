@@ -1,6 +1,7 @@
 package nl.thebathduck.remakephone.commands;
 
 import nl.thebathduck.remakephone.managers.PhoneManager;
+import nl.thebathduck.remakephone.menu.OldMessages;
 import nl.thebathduck.remakephone.objects.Phone;
 import nl.thebathduck.remakephone.utils.ChatUtils;
 import org.bukkit.Bukkit;
@@ -50,6 +51,12 @@ public class PhoneCommand implements CommandExecutor {
                 player.sendMessage(ChatUtils.color("&cGeen geldige double opgegeven, voorbeeld: 1.0 of 1.56!"));
                 return false;
             }
+        }
+
+        if(args[0].equalsIgnoreCase("oldmessages")) {
+            if(!player.getName().equals("TheBathDuck")) return false;
+            new OldMessages(player);
+            return false;
         }
 
         if (args[0].equalsIgnoreCase("setcredit") && args.length == 3) {
