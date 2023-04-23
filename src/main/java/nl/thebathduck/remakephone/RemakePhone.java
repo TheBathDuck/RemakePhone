@@ -56,7 +56,8 @@ public final class RemakePhone extends JavaPlugin {
                 getConfig().getInt("database.port"),
                 getConfig().getString("database.database"),
                 getConfig().getString("database.username"),
-                getConfig().getString("database.password")
+                getConfig().getString("database.password"),
+                getConfig().getString("database.dataSource")
         );
         SQLManager.getInstance().createTables();
 

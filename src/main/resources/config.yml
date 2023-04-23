@@ -4,6 +4,7 @@ database:
   database: 's4_RemakePhone'
   username: 'u4_a9iOlHxGOJ'
   password: 'mnnL3@M.FtMK0t+.4rrCG6fI'
+  dataSource: 'com.mysql.jdbc.jdbc2.optional.MysqlDataSource'
 
 #Opties: 'MINETOPIA' of 'GRINDING'
 # Grinding: Andere starterskit & grinding skins ipv telefoon skins.

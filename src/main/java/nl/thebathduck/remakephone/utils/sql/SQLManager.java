@@ -18,20 +18,15 @@ public class SQLManager {
 
     private @Getter HikariDataSource hikari;
 
-    public void init(String ip, int port, String databaseName, String user, String password) {
+    public void init(String ip, int port, String databaseName, String user, String password, String dataSource) {
         HikariConfig hikariConfig = new HikariConfig();
 
-        try {
-            Class.forName("com.mysql.jdbc.jdbc2.optional.MysqlDataSource");
-            hikariConfig.setDataSourceClassName("com.mysql.jdbc.jdbc2.optional.MysqlDataSource");
-        } catch (ClassNotFoundException e) {
-            hikariConfig.setDataSourceClassName("com.mysql.cj.jdbc.MysqlDataSource");
-        }
         hikariConfig.addDataSourceProperty("serverName", ip);
         hikariConfig.addDataSourceProperty("port", port);
         hikariConfig.addDataSourceProperty("databaseName", databaseName);
         hikariConfig.addDataSourceProperty("user", user);
         hikariConfig.addDataSourceProperty("password", password);
+        hikariConfig.setDataSourceClassName(dataSource);
         hikariConfig.setLeakDetectionThreshold(10000L);
         hikariConfig.setMaximumPoolSize(8);
         hikariConfig.addDataSourceProperty("cachePrepStmts", "true");
