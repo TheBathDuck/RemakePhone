@@ -1,9 +1,9 @@
 database:
-  ip: '185.150.96.162'
+  ip: ''
   port: 3306
-  database: 's4_RemakePhone'
-  username: 'u4_a9iOlHxGOJ'
-  password: 'mnnL3@M.FtMK0t+.4rrCG6fI'
+  database: ''
+  username: ''
+  password: ''
   dataSource: 'com.mysql.jdbc.jdbc2.optional.MysqlDataSource'
 
 #Opties: 'MINETOPIA' of 'GRINDING'
